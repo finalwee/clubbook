@@ -1,4 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-*/node_modules
+# backend
 /backend/.env.defaults
+/backend/node_modules
+
+#frontend
+/frontend/node_modules
+
+# global
+*.log
+**/log
