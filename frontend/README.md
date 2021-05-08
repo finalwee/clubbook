@@ -1,4 +1,0 @@
-# CLUBHOUSE
-
-## frontend
-`yarn start`
