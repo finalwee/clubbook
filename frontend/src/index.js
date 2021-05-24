@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ClubHouse from "./containers/ClubHouse";
+import ClubBook from "./containers/ClubBook";
 
 ReactDOM.render(
-    <ClubHouse />,
+    <ClubBook />,
     document.getElementById("root")
 );
