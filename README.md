@@ -11,3 +11,6 @@ in current file or run both following command
 
 ## backend
 `yarn server`
+
+## Reference
+https://reactjsexample.com/react-side-nav-component/
