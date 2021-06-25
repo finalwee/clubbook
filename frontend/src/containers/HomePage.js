@@ -11,6 +11,8 @@ ListItemText,
 import SideBar from "../components/SideBar";
 import SearchBar from "material-ui-search-bar";
 import { makeStyles } from '@material-ui/core/styles';
+import ChatRoom from './ChatRoom';
+import useChatBox from "../hooks/useChatBox";
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -18,11 +20,11 @@ const useStyles = makeStyles(() => ({
       maxWidth: 360,
       position: 'relative',
       overflow: 'auto',
-      maxHeight: 300,
+      maxHeight: 250,
     },
   }));
 
-function HomePage() {
+function HomePage({me, displayStatus}) {
     
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
@@ -30,6 +32,7 @@ function HomePage() {
     const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
     const [club_selected, setClubSelected] = useState('');
     const [friend_selected, setFriendSelected] = useState('');
+    const { createChatBox } = useChatBox();
     const classes = useStyles();
 
     return(
@@ -78,7 +81,7 @@ function HomePage() {
                                 <ListItem
                                     button
                                     key={item}
-                                    onClick={() => {setFriendSelected(item);setFriends([]);}}
+                                    onClick={() => {setFriendSelected(item);setFriends([]);createChatBox(item, me)}}
                                 >
                                     <ListItemText primary={item} />
                                 </ListItem>
@@ -86,6 +89,9 @@ function HomePage() {
                         </List>
                     }   
                 </Paper>
+            </div>
+            <div className="chatroom">
+                <ChatRoom me={me} displayStatus={displayStatus}/>
             </div>
         </div>
     );

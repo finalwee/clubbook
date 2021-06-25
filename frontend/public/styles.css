@@ -1,6 +1,9 @@
 html{
     background-color: #fff;
 }
+
+/* for homepage */
+
 .homepage {
     display: flex;
     position: relative;
@@ -20,5 +23,66 @@ html{
 
 .homepage .friendsearch{
     position: absolute;
-    left: 1100px;
+    left: 1150px;
 }
+
+.homepage .chatroom{
+    position: absolute;
+    left: 1100px;
+    bottom: -700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    margin: auto;
+}
+
+/* for chatroom */
+
+.App-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.App-title h1 {
+margin: 0;
+margin-right: 20px;
+font-size: 2em;
+color: rgb(156, 235, 52);
+}
+
+.App-messages {
+    width: 100%;
+    height: 300px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    overflow: auto;
+  }
+  
+  .App-message-left {
+    text-align: left;
+  }
+  
+  .App-message-right {
+    text-align: right;
+  }
+  
+  .self-defined-tag{
+    font-size: 12px;
+    display: inline-block;
+    height: auto;
+    margin-left: 8px;
+    padding: 0 7px;
+    line-height: 20px;
+    white-space: nowrap;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    opacity: 1;
+    color:#096dd9;
+    background: #e6f7ff;
+    border-color: #91d5ff;
+  }
