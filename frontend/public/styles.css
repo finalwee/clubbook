@@ -40,38 +40,37 @@ html{
 
 /* for chatroom */
 
-.App-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-.App-title h1 {
-margin: 0;
-margin-right: 20px;
-font-size: 2em;
-color: rgb(156, 235, 52);
-}
-
 .App-messages {
     width: 100%;
     height: 300px;
     background: #fff;
-    border-radius: 10px;
-    margin: 20px;
-    padding: 20px;
+    border-radius: 5px;
     overflow: auto;
+}
+
+.App-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #68a7eb;
   }
   
-  .App-message-left {
+.App-title h1 {
+    margin: 0;
+    margin-right: 20px;
+    font-size: 2em;
+    color: #fff;
+}
+
+.App-message-left {
     text-align: left;
-  }
-  
-  .App-message-right {
+}
+
+.App-message-right {
     text-align: right;
-  }
-  
-  .self-defined-tag{
+}
+
+.self-defined-tag{
     font-size: 12px;
     display: inline-block;
     height: auto;
@@ -85,4 +84,4 @@ color: rgb(156, 235, 52);
     color:#096dd9;
     background: #e6f7ff;
     border-color: #91d5ff;
-  }
+}
