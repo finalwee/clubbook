@@ -1,4 +1,4 @@
-# CLUBHOUSE
+# CLUBBOOK
 
 ## Setup project
 You can just run 
