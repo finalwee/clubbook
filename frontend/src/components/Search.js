@@ -7,7 +7,6 @@ import {
 } from '@material-ui/core';
 import SearchBar from "material-ui-search-bar";
 import { makeStyles } from '@material-ui/core/styles';
-import useChatBox from "../hooks/useChatBox";
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles(() => ({
     },
   }));
 
-function Search({type, me}){
+function Search({type, me, displayStatus, createChatBox}){
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
@@ -26,7 +25,6 @@ function Search({type, me}){
     const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
     const [club_selected, setClubSelected] = useState('');
     const [friend_selected, setFriendSelected] = useState('');
-    const { createChatBox } = useChatBox();
     const classes = useStyles();
     
 
@@ -67,7 +65,7 @@ function Search({type, me}){
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setFriendSelected(item);setFriends([]);createChatBox(item, me)}}
+                                onClick={() => {setFriendSelected(item);setFriends([]);createChatBox(item, me, displayStatus)}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>

@@ -1,21 +1,15 @@
 import { useCallback ,useState } from "react";
-import { message, Tabs, Input, Tag } from "antd";
+import { Tabs, Input, } from "antd";
 import {useMutation} from '@apollo/react-hooks';
-import ChatModal from "../components/ChatModal";
 import ChatBox from "../components/ChatBox";
-import useChatBox from "../hooks/useChatBox";
 import {CREATE_MESSAGE_MUTATION} from "../graphql/Mutation";
 
 const { TabPane } = Tabs;
-const ChatRoom = ({ me, displayStatus }) => {  
+const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox}) => {  
   
   const [messageInput, setMessageInput] = useState("");
   const [activeKey, setActiveKey] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
   const [createDbMessage] = useMutation(CREATE_MESSAGE_MUTATION);
-
-  const addChatBox = () => { setModalVisible(true); };
 
   const sendMessage = useCallback(async ({sender, chatboxname, message}) => {
 
@@ -38,10 +32,10 @@ const ChatRoom = ({ me, displayStatus }) => {
         </div>
         <Tabs type="editable-card" 
           activeKey={activeKey}
+          hideAdd={true}
           onChange={(key) => { setActiveKey(key); }}
           onEdit={(targetKey, action) => {
-            if (action === "add") addChatBox();
-            else if (action === "remove") setActiveKey(removeChatBox(targetKey, activeKey));
+            if (action === "remove") setActiveKey(removeChatBox(targetKey, activeKey));
           }}
         >
           {chatBoxes.map((
@@ -52,16 +46,6 @@ const ChatRoom = ({ me, displayStatus }) => {
                 </TabPane>
             );})}
          </Tabs>
-         <ChatModal
-          visible={modalVisible}
-          onCreate={({ name }) => {
-            setActiveKey(createChatBox(name, me));
-            setModalVisible(false);
-          }}
-          onCancel={() => {
-            setModalVisible(false);
-          }}
-        />
       </div>
         <Input.Search
           value={messageInput}

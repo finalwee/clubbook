@@ -11,8 +11,11 @@ ListItemText,
 import SideBar from "../components/SideBar";
 import ChatRoom from './ChatRoom';
 import Search from '../components/Search';
+import useChatBox from '../hooks/useChatBox';
 
 function HomePage({me, displayStatus}) {
+
+    const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
     
     return(
         <div className="homepage">
@@ -27,10 +30,10 @@ function HomePage({me, displayStatus}) {
                 </Typography>
             </div>
             <div className="friendsearch">
-                <Search type='Friend' me={me}/>
+                <Search type='Friend' me={me} displayStatus={displayStatus} createChatBox={createChatBox}/>
             </div>
             <div className="chatroom">
-                <ChatRoom me={me} displayStatus={displayStatus}/>
+                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
             </div>
         </div>
     );

@@ -8,11 +8,18 @@ const useChatBox = () => {
 
   const [createDbChatBox] = useMutation(CREATE_CHATBOX_MUTATION);
 
-  const createChatBox = async (friend, me) => {
+  const createChatBox = async (friend, me, displayStatus) => {
     const newKey = me <= friend ?
           `${me}_${friend}` : `${friend}_${me}`;
-    if (chatBoxes.some(({ key }) => key === newKey)) {
-      throw new Error(friend + "'s chat box has already opened.");
+    try{
+      if (chatBoxes.some(({ key }) => key === newKey)) {
+        throw new Error(friend + "'s chat box has already opened.");
+      }
+    }catch(e){
+      return displayStatus({
+        type: "error",
+        msg: friend + "'s chat box has already been opened.",
+      })
     }
     const newChatBoxes = [...chatBoxes];
     await createDbChatBox({
