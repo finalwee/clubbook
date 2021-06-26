@@ -20,7 +20,7 @@ const displayStatus = (payload) => {
 
 function ClubBook() {
   return (
-    <HomePage me={'John'} displayStatus={displayStatus}/>
+    <HomePage me={'Peter'} displayStatus={displayStatus}/>
   );
 }
 

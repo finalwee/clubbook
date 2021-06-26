@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatRoom from './ChatRoom';
 import Header from "./Header";
 import useChatBox from '../hooks/useChatBox';
@@ -26,16 +26,17 @@ const useStyles = makeStyles(() => ({
 function HomePage({me, displayStatus}) {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
-    const [club_selected, setClubSelected] = useState(false);
-    const [friend_selected, setFriendSelected] = useState(false);
-    const props = {visibility: friend_selected ? 'visible' : 'hidden'}
+    const [club_selected, setClubSelected] = useState('');
+    const [show, setShow] = useState(false);
+    let props = {visibility: (show ? 'visible' : 'hidden')};
     const classes = useStyles(props);
     
     return(
         <div className={classes.homepage}>
-            <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} setClubSelected={setClubSelected} setFriendSelected={setFriendSelected}/>
+            <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
+                setClubSelected={setClubSelected} setShow={setShow}/>
             <div className={classes.chatroom}>
-                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
+                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox} setShow={setShow}/>
             </div>
         </div>
     );

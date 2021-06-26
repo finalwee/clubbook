@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Header({me, displayStatus, createChatBox, setClubSelected, setFriendSelected}) {
+function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
@@ -176,7 +176,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setFriendSel
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setFriendSelected(item);setFriends([]);createChatBox(item, me, displayStatus)}}
+                                onClick={() => {setFriends([]);setShow(true);createChatBox(item, me, displayStatus)}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>
