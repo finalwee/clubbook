@@ -48,7 +48,6 @@ const ChatRoom = ({ me, displayStatus }) => {
             { friend, key }, i) => {
               return (
                 <TabPane tab={friend} key={key} closable={true}>
-                  <p>{friend}'s chatbox.</p>
                   <ChatBox me={me} friend={friend} index={i}/>
                 </TabPane>
             );})}

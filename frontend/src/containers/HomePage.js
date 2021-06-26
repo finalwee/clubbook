@@ -9,57 +9,16 @@ ListItem,
 ListItemText,
 } from '@material-ui/core';
 import SideBar from "../components/SideBar";
-import SearchBar from "material-ui-search-bar";
-import { makeStyles } from '@material-ui/core/styles';
 import ChatRoom from './ChatRoom';
-import useChatBox from "../hooks/useChatBox";
-
-const useStyles = makeStyles(() => ({
-    list: {
-      width: '100%',
-      maxWidth: 360,
-      position: 'relative',
-      overflow: 'auto',
-      maxHeight: 250,
-    },
-  }));
+import Search from '../components/Search';
 
 function HomePage({me, displayStatus}) {
     
-    const [clubsearch, setClubSearch] = useState('');
-    const [friendsearch, setFriendSearch] = useState('');
-    const [clubs, setClubs] = useState(['Badminton', 'Tennis', 'Piano', 'Math', 'Web']);
-    const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
-    const [club_selected, setClubSelected] = useState('');
-    const [friend_selected, setFriendSelected] = useState('');
-    const { createChatBox } = useChatBox();
-    const classes = useStyles();
-
     return(
         <div className="homepage">
             <SideBar/>
             <div className="clubsearch">
-                <Paper>
-                    <SearchBar
-                        placeholder="Search Club"
-                        value={clubsearch}
-                        onChange={(newValue) => setClubSearch(() => {return newValue;})}
-                        onRequestSearch={() => {}}
-                    />
-                    {clubs.length===0 ? <></> :
-                        <List className={classes.list}>
-                            {clubs.map(item => {return(
-                                <ListItem
-                                    button
-                                    key={item}
-                                    onClick={() => {setClubSelected(item);setClubs([]);}}
-                                >
-                                    <ListItemText primary={item} />
-                                </ListItem>
-                            )})}
-                        </List>
-                    }   
-                </Paper>
+                <Search type='Club' me={me}/>
             </div>
             <div className="main" style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
                 <CssBaseline />
@@ -68,27 +27,7 @@ function HomePage({me, displayStatus}) {
                 </Typography>
             </div>
             <div className="friendsearch">
-                <Paper>
-                    <SearchBar
-                        placeholder="Search Friend"
-                        value={friendsearch}
-                        onChange={(newValue) => setFriendSearch(() => {return newValue;})}
-                        onRequestSearch={() => {}}
-                    />
-                    {friends.length===0 ? <></> :
-                        <List className={classes.list}>
-                            {friends.map(item => {return(
-                                <ListItem
-                                    button
-                                    key={item}
-                                    onClick={() => {setFriendSelected(item);setFriends([]);createChatBox(item, me)}}
-                                >
-                                    <ListItemText primary={item} />
-                                </ListItem>
-                            )})}
-                        </List>
-                    }   
-                </Paper>
+                <Search type='Friend' me={me}/>
             </div>
             <div className="chatroom">
                 <ChatRoom me={me} displayStatus={displayStatus}/>
