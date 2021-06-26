@@ -1,38 +1,40 @@
 import { useState } from 'react';
-import {
-Typography,
-CssBaseline,
-Paper,
-Grid,
-List,
-ListItem,
-ListItemText,
-} from '@material-ui/core';
-import SideBar from "../components/SideBar";
 import ChatRoom from './ChatRoom';
-import Search from '../components/Search';
+import Header from "./Header";
 import useChatBox from '../hooks/useChatBox';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+    homepage: {
+        display: 'flex',
+        position: 'relative',
+    },
+    chatroom: props => ({
+        visibility: props.visibility,
+        position: 'absolute',
+        left: 1100,
+        bottom: -640,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 350,
+        margin: 'auto',
+    })
+}));
 
 function HomePage({me, displayStatus}) {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
+    const [club_selected, setClubSelected] = useState(false);
+    const [friend_selected, setFriendSelected] = useState(false);
+    const props = {visibility: friend_selected ? 'visible' : 'hidden'}
+    const classes = useStyles(props);
     
     return(
-        <div className="homepage">
-            <SideBar/>
-            <div className="clubsearch">
-                <Search type='Club' me={me}/>
-            </div>
-            <div className="main" style={{ padding: 16, margin: 'auto', maxWidth: 600 }}>
-                <CssBaseline />
-                <Typography variant="h4" align="center" component="h1" gutterBottom>
-                    &#x2663; Club Book &#x1F4DA;
-                </Typography>
-            </div>
-            <div className="friendsearch">
-                <Search type='Friend' me={me} displayStatus={displayStatus} createChatBox={createChatBox}/>
-            </div>
-            <div className="chatroom">
+        <div className={classes.homepage}>
+            <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} setClubSelected={setClubSelected} setFriendSelected={setFriendSelected}/>
+            <div className={classes.chatroom}>
                 <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
             </div>
         </div>
