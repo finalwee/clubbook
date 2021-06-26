@@ -46,8 +46,9 @@ const ChatBox = ({me, friend, index}) => {
                 if(!subscriptionData.data) return prev;
                 const newMessage = subscriptionData.data.ChatBox.data;
 
-                console.log(newMessage);
-                return({messages: newMessage})
+                if (prev !== undefined) {
+                    return({messages: [...prev.messages, ...newMessage]})
+                }
             }
         })
     }, [subscribeToMore]);

@@ -47,9 +47,7 @@ async createMessage(parent, {sender, chatboxname, body}, { db, pubsub }, info) {
   }
 
   let result = [];
-  for(let i=0; i<Object.keys(messages).length;i++){
-    result.push(await db.MessageModel.findById(messages[i]));
-  }
+  result.push(Message[Message.length-1]);
 
   pubsub.publish(`ChatBox ${chatboxname}`, {
     ChatBox: {
