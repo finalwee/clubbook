@@ -1,14 +1,42 @@
 type Query {
   messages(name1: String, name2: String): [Message!]
+  posts(clubId: ID): [Post]
+  comments(postId: ID): [Comment]
 }
 
 type Mutation {
   createChatBox(name1: String, name2: String): ChatBox
   createMessage(sender: String, chatboxname: String, body: String): [Message!]
+  createClub(name: String, author: String): Boolean
+  createPost(body: String, author: String, clubName: String): Boolean
+  createComment(body: String, commenter: String, postId: ID): Boolean
 }
 
 type Subscription {
   ChatBox(ChatBoxName: String): ChatBoxSubscriptionPayload!
+  Club(clubId: ID): ClubSubscriptionPayload!
+  Post(postId: ID): PostSubscriptionPayload!
+}
+
+type Club {
+  author: User!
+  name: String!
+  createTime: String
+  posts: [Post]
+  keywords: [String]
+}
+
+type Post {
+  author: User!
+  createTime: String
+  body: String!
+  comments: [Comment]
+}
+
+type Comment {
+  commenter: User!
+  createTime: String
+  body: [String!]
 }
 
 type User {
@@ -32,4 +60,18 @@ enum MutationType {
 type ChatBoxSubscriptionPayload {
   mutation: MutationType!
   data: [Message!]
+}
+
+type ClubSubscriptionPayload {
+  mutation: MutationType!
+  data: [Post!]
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  data: [Comment!]
+}
+
+input UserInput {
+  name: String!
 }
