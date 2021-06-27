@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import ChatRoom from './ChatRoom';
 import Header from "./Header";
-import Post from '../components/Post';
 import HomePagePosts from './HomePagePosts';
+import ClubPosts from './ClubPosts';
 import useChatBox from '../hooks/useChatBox';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -28,14 +28,14 @@ const useStyles = makeStyles(() => ({
 function HomePage({me, displayStatus}) {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
-    const [club_selected, setClubSelected] = useState('');
+    const [clubSelected, setClubSelected] = useState('');
     const [show, setShow] = useState(false);
     let props = {visibility: (show ? 'visible' : 'hidden')};
     const classes = useStyles(props);
     
     return(
         <div className={classes.homepage}>
-            <HomePagePosts/>
+            {clubSelected === '' ? <HomePagePosts/> : <ClubPosts clubname={clubSelected}/>}
             <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
                 setClubSelected={setClubSelected} setShow={setShow}/>
             <div className={classes.chatroom}>

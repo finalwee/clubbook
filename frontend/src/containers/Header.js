@@ -116,7 +116,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
         <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
-            <SideBar/>
+            <SideBar setClubSelected={setClubSelected}/>
             <div className={classes.searchclub}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />

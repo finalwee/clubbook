@@ -98,13 +98,18 @@ const StyledNavItem = styled(NavItem)`
 `;
 StyledNavItem.defaultProps = NavItem.defaultProps;
 
-function SideBar(){
+function SideBar({setClubSelected}){
 
     const [selected, setSelected] = useState("home");
 
     return(
         <StyledSideNav
-            onSelect={()=>{}}
+            onSelect={(eventKey)=>{
+                console.log(eventKey.slice(0,5))
+                if (eventKey.slice(0, 5) === 'club/'){
+                    setClubSelected(eventKey.slice(5, eventKey.length))
+                }
+            }}
         >
             <StyledToggle />
             <StyledNav defaultSelected={selected}>
@@ -132,16 +137,16 @@ function SideBar(){
                         CLUB
                     </NavText>
                     {/*下方要放的是每個人的clubs */}
-                    <NavItem eventKey="club/policy"> 
-                        <NavText title="POLICIES">
-                            POLICIES
+                    <StyledNavItem eventKey="club/Tennis"> 
+                        <NavText title="Tennis">
+                            Tennis
                         </NavText>
-                    </NavItem>
-                    <NavItem eventKey="club/network">
-                        <NavText title="NETWORK">
-                            NETWORK
+                    </StyledNavItem>
+                    <StyledNavItem eventKey="club/Badminton">
+                        <NavText title="Badminton">
+                            Badminton
                         </NavText>
-                    </NavItem>
+                    </StyledNavItem>
                 </StyledNavItem>
                 <StyledNavItem eventKey="activity">
                     <NavIcon>
