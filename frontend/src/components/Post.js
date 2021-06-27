@@ -33,9 +33,9 @@ const displayStatus = (payload) => {
         }
     }
 };
-function Post({clubname, title, author, content, comments}) {
+function Post({clubname, title, author, content, comments, original}) {
 
-    const [commentsadded, setCommentAdded] = useState([]);
+    const [commentsadded, setCommentAdded] = useState(comments);
     const [messageInput, setMessageInput] = useState("");
     const [expanded, setExpanded] = useState(false);
     const [moodexpanded_primary, setMoodexpanded_primary] = useState(false);
@@ -86,9 +86,9 @@ function Post({clubname, title, author, content, comments}) {
         return date;
     };
     return (
-        <div style={{ padding: 16, margin: 'auto', width: 450 }}>{/*調整width */}
-            {show ? 
-            <Card style={{ backgroundColor: "white", padding: 20, height: 280 }} 
+        <div style={original ? { padding: 16, margin: 'auto', maxWidth: 600 } : { padding: 16, margin: 'auto', width: 450 }}>{/*調整width */}
+            {(show || original) ? 
+            <Card style={original ? { backgroundColor: "white", padding: 20 } : { backgroundColor: "white", padding: 20, height: 280 }} 
                 onMouseOver={()=>setShow(()=>{return false})}>{/*調整height*/}
                 <CardHeader
                     avatar={
@@ -97,7 +97,7 @@ function Post({clubname, title, author, content, comments}) {
                     title={title}
                     subheader={author}
                 />
-                <CardContent style={{height: 300}}>{/*調整height*/}
+                <CardContent style={original ? {}: {height: 300}}>{/*調整height*/}
                     <Typography variant="body2" color="textSecondary" component="p">
                         {content}
                     </Typography>
@@ -182,7 +182,7 @@ function Post({clubname, title, author, content, comments}) {
                                         comment_time: post_time,
                                         content: msg
                                     };
-                                    setCommentAdded([...comments, ...commentsadded, newcomment]);
+                                    setCommentAdded([...commentsadded, newcomment]);
                                     setMessageInput("");
                                     console.log(...comments);
                                 }}

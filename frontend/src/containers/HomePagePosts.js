@@ -18,50 +18,50 @@ function HomePagePosts({recover, setRecover}){
         <>
             {(postClick === '' || recover)  ? 
             <div style={{position: 'absolute', left: 80, bottom: -200, width: 450, height: 200}} onClick={()=>{setPostClick('0');setRecover(false);}}>
-                <Post clubname={clubname[0]} title={title[0]} author={author[0]} content={content[0]} comments={comments[0]}/>
+                <Post clubname={clubname[0]} title={title[0]} author={author[0]} content={content[0]} comments={comments[0]} original={false}/>
             </div> :  (postClick === '0') ? 
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[0]} title={title[0]} author={author[0]} content={content[0]} comments={comments[0]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[0]} title={title[0]} author={author[0]} content={content[0]} comments={comments[0]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover)  ?
             <div style={{position: 'absolute', left: 560, bottom: -200, width: 450, height: 200}} onClick={()=>{setPostClick('1');setRecover(false);}}>
-                <Post clubname={clubname[1]} title={title[1]} author={author[1]} content={content[1]} comments={comments[1]}/>
+                <Post clubname={clubname[1]} title={title[1]} author={author[1]} content={content[1]} comments={comments[1]} original={false}/>
             </div> : (postClick === '1') ? 
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[1]} title={title[1]} author={author[1]} content={content[1]} comments={comments[1]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[1]} title={title[1]} author={author[1]} content={content[1]} comments={comments[1]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover)  ?
             <div style={{position: 'absolute', left: 1040, bottom: -200, width: 450, height: 200}} onClick={()=>{setPostClick('2');setRecover(false);}}>
-                <Post clubname={clubname[2]} title={title[2]} author={author[2]} content={content[2]} comments={comments[2]}/>
+                <Post clubname={clubname[2]} title={title[2]} author={author[2]} content={content[2]} comments={comments[2]} original={false}/>
             </div> : (postClick === '2') ? 
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[2]} title={title[2]} author={author[2]} content={content[2]} comments={comments[2]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[2]} title={title[2]} author={author[2]} content={content[2]} comments={comments[2]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover)  ?
             <div style={{position: 'absolute', left: 80, bottom: -520, width: 450, height: 200}} onClick={()=>{setPostClick('3');setRecover(false);}}>
-                <Post clubname={clubname[3]} title={title[3]} author={author[3]} content={content[3]} comments={comments[3]}/>
+                <Post clubname={clubname[3]} title={title[3]} author={author[3]} content={content[3]} comments={comments[3]} original={false}/>
             </div> : (postClick === '3') ? 
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[3]} title={title[3]} author={author[3]} content={content[3]} comments={comments[3]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[3]} title={title[3]} author={author[3]} content={content[3]} comments={comments[3]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover)  ? 
             <div style={{position: 'absolute', left: 560, bottom: -520, width: 450, height: 200}} onClick={()=>{setPostClick('4');setRecover(false);}}>
-                <Post clubname={clubname[4]} title={title[4]} author={author[4]} content={content[4]} comments={comments[4]}/>
+                <Post clubname={clubname[4]} title={title[4]} author={author[4]} content={content[4]} comments={comments[4]} original={false}/>
             </div> :  (postClick === '4') ?
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[4]} title={title[4]} author={author[4]} content={content[4]} comments={comments[4]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[4]} title={title[4]} author={author[4]} content={content[4]} comments={comments[4]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover)  ? 
             <div style={{position: 'absolute', left: 1040, bottom: -520, width: 450, height: 200}} onClick={()=>{setPostClick('5');setRecover(false);}}>
-                <Post clubname={clubname[5]} title={title[5]} author={author[5]} content={content[5]} comments={comments[5]}/>
+                <Post clubname={clubname[5]} title={title[5]} author={author[5]} content={content[5]} comments={comments[5]} original={false}/>
             </div> : (postClick === '5') ?
-            <div style={{position: 'absolute', left: 500, bottom: -200, width: 450, height: 200}}>
-                <Post clubname={clubname[5]} title={title[5]} author={author[5]} content={content[5]} comments={comments[5]}/>
+            <div style={{position: 'absolute', left: 550, bottom: -250, width: 450, height: 200}}>
+                <Post clubname={clubname[5]} title={title[5]} author={author[5]} content={content[5]} comments={comments[5]} original={true}/>
             </div> : <></>}
 
             {(postClick === '' || recover) ?
