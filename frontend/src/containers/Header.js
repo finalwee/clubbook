@@ -10,38 +10,45 @@ import List from '@material-ui/core/List';
 import ListItem  from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import SideBar from '../components/SideBar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-    menuButton: {
-        marginRight: 80,
-    },
     title: {
         flexGrow: 1,
-        display: 'none',
         [theme.breakpoints.up('sm')]: {
         display: 'block',
-        marginLeft: 110,
-        marginRight: 270,
+        position: 'absolute',
+        left: 650,
         },
     },
-    search: {
-        position: 'relative',
+    searchclub: {
+        position: 'absolute',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
         backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginLeft:1000,
-        marginRight: 100,
         width: 233,
+        left: 140,
         [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(1),
-        // width: 'auto',
+        },
+    },
+    searchfriend: {
+        position: 'absolute',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+        backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        width: 233,
+        left: 1155,
+        [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
         },
     },
     searchIcon: {
@@ -68,17 +75,17 @@ const useStyles = makeStyles((theme) => ({
         },
         },
     },
-    clubsearch: props =>({
+    clubsearchpaper: props =>({
         position: 'absolute',
         width: 233,
         left: 148,
         bottom: -211-props.clubcount,
     }),
-    friendsearch: props => ({
+    friendsearchpaper: props => ({
         position: 'absolute',
         width: 233,
         left: 1163,
-        bottom: -213-props.friendcount,
+        bottom: -215-props.friendcount,
     }),
     clublist: {
         maxWidth: 360,
@@ -109,15 +116,8 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
         <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
-            <IconButton
-                edge="start"
-                className={classes.menuButton}
-                color="inherit"
-                aria-label="open drawer"
-            >
-                <MenuIcon />
-            </IconButton>
-            <div className={classes.search}>
+            <SideBar/>
+            <div className={classes.searchclub}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />
                 </div>
@@ -134,7 +134,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
             <Typography className={classes.title} variant="h6" noWrap>
                 &#x2663; Club Book &#x1F4DA;
             </Typography>
-            <div className={classes.search}>
+            <div className={classes.searchfriend}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />
                 </div>
@@ -151,7 +151,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
             </Toolbar>
         </AppBar>
         </div>
-        <div className={classes.clubsearch}>
+        <div className={classes.clubsearchpaper}>
             <Paper>
                 {clubs.length===0 ? <></> :
                     <List className={classes.clublist}>
@@ -168,7 +168,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
                 }   
             </Paper>
         </div>
-        <div className={classes.friendsearch}>
+        <div className={classes.friendsearchpaper}>
             <Paper>
                 {friends.length===0 ? <></> :
                     <List className={classes.friendlist}>
