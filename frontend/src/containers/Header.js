@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
         display: 'block',
         position: 'absolute',
-        left: 650,
+        left: 700,
         },
     },
     searchclub: {

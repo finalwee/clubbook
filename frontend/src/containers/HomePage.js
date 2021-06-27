@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import ChatRoom from './ChatRoom';
 import Header from "./Header";
+import Post from '../components/Post';
+import HomePagePosts from './HomePagePosts';
 import useChatBox from '../hooks/useChatBox';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -33,6 +35,7 @@ function HomePage({me, displayStatus}) {
     
     return(
         <div className={classes.homepage}>
+            <HomePagePosts/>
             <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
                 setClubSelected={setClubSelected} setShow={setShow}/>
             <div className={classes.chatroom}>
