@@ -30,14 +30,16 @@ function HomePage({me, displayStatus}) {
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
     const [clubSelected, setClubSelected] = useState('');
     const [show, setShow] = useState(false);
+    const [recover, setRecover] = useState(true);
     let props = {visibility: (show ? 'visible' : 'hidden')};
     const classes = useStyles(props);
     
     return(
         <div className={classes.homepage}>
-            {clubSelected === '' ? <HomePagePosts/> : <ClubPosts clubname={clubSelected}/>}
+            {clubSelected === '' ? <HomePagePosts recover={recover} setRecover={setRecover}/> : 
+                <ClubPosts clubname={clubSelected} recover={recover} setRecover={setRecover}/>}
             <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
-                setClubSelected={setClubSelected} setShow={setShow}/>
+                setClubSelected={setClubSelected} setShow={setShow} setRecover={setRecover}/>
             <div className={classes.chatroom}>
                 <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox} setShow={setShow}/>
             </div>

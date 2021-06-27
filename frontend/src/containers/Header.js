@@ -102,7 +102,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
+function Header({me, displayStatus, createChatBox, setClubSelected, setShow, setRecover}) {
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
@@ -116,7 +116,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
         <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
-            <SideBar setClubSelected={setClubSelected}/>
+            <SideBar setClubSelected={setClubSelected} setRecover={setRecover}/>
             <div className={classes.searchclub}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -159,7 +159,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow}) {
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setClubSelected(item);setClubs([]);}}
+                                onClick={() => {setClubSelected(item);setClubs([]);setRecover(true);}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>

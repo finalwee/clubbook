@@ -98,16 +98,20 @@ const StyledNavItem = styled(NavItem)`
 `;
 StyledNavItem.defaultProps = NavItem.defaultProps;
 
-function SideBar({setClubSelected}){
+function SideBar({setClubSelected, setRecover}){
 
     const [selected, setSelected] = useState("home");
 
     return(
         <StyledSideNav
             onSelect={(eventKey)=>{
-                console.log(eventKey.slice(0,5))
                 if (eventKey.slice(0, 5) === 'club/'){
                     setClubSelected(eventKey.slice(5, eventKey.length))
+                    setRecover(true)
+                }
+                else if (eventKey === 'home'){
+                    setClubSelected('');
+                    setRecover(true)
                 }
             }}
         >
