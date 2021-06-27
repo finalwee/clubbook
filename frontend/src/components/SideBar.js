@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
-    background-color: #fff;
+    background-color: #db3d44;
     border-right: 1px solid #ddd;
 `;
 StyledSideNav.defaultProps = SideNav.defaultProps;

@@ -57,7 +57,7 @@ const ChatBox = ({me, friend, index}) => {
         data === undefined ? <></> :
         <>
             {data?.messages?.map((message, idx) => 
-            message.sender.name === friend ?
+            (message.sender.name === friend && friend !== me )?
             <p key={index} className={classes.AppMessageLeft}>
                 <Tag color="blue">{friend}</Tag>{message.body}
             </p> :
