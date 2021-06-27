@@ -142,10 +142,10 @@ function Post({clubname, title, author, content, comments, original}) {
                 <div style={{ height: "auto" }}>
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
                         <CardContent>
-                            <div style={{ backgroundColor: "white", display: "flex", justifyContent: "center", flexDirection: "column", width: "31em", height: '15em', overflow: 'auto' }}>
+                            <div style={{ backgroundColor: "white", display: "flex", justifyContent: "center", flexDirection: "column", width: "20em", height: '15em', overflow: 'auto' }}>
                                 {commentsadded.map(function (comment) {
                                     return (
-                                        <div style={{ backgroundColor: "white", width: "30em", marginTop: '0.2em' }}>
+                                        <div style={{ backgroundColor: "white", width: "18em", marginTop: '0.2em' }}>
                                             <div style={{ marginTop: '0.2em' }}>
                                                 <Avatar alt={comment.author} src={comment.photo} style={{ float: 'left', marginTop: '0.2em', marginRight: '0.5em', height: '1.5em', width: '1.5em' }} />
                                                 <div style={{ float: 'left' }}>

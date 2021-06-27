@@ -23,7 +23,7 @@ import {
 } from '@material-ui/pickers';
 
 
-function Register() {
+function Register({setEnter}) {
 
   const [values, setValues] = useState({
     username: '',
@@ -130,10 +130,10 @@ function Register() {
 
   const handleSubmit = () => {
 
-    for (let [key, value] of Object.entries(values)){
-      Validate(key, value);
-    }
-    
+    // for (let [key, value] of Object.entries(values)){
+    //   Validate(key, value);
+    // }
+    setEnter(true);
   }
 
   return (
