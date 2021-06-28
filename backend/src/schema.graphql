@@ -6,7 +6,8 @@ type Query {
 }
 
 type Mutation {
-  createUser(name: String!, password: String!, email: String): Boolean
+  createUser(name: String!, password: String!, email: String): String
+  userLogin(name: String!, password: String!): Boolean
   createChatBox(name1: String, name2: String): ChatBox
   createMessage(sender: String, chatboxname: String, body: String): [Message!]
   createClub(name: String, author: String): Boolean
