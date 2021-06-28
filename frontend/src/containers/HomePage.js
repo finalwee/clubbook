@@ -37,7 +37,7 @@ function HomePage({me, displayStatus}) {
     return(
         <div className={classes.homepage}>
             {clubSelected === '' ? <HomePagePosts recover={recover} setRecover={setRecover}/> : 
-                <ClubPosts clubname={clubSelected} recover={recover} setRecover={setRecover}/>}
+                <ClubPosts clubname={clubSelected} me={me} recover={recover} setRecover={setRecover}/>}
             <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
                 setClubSelected={setClubSelected} setShow={setShow} setRecover={setRecover}/>
             <div className={classes.chatroom}>
