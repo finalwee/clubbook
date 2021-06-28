@@ -12,7 +12,7 @@ import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import { CardHeader, CardMedia, CardContent, Typography, CardActions, Collapse } from "@material-ui/core";
 import CreatePostModal from '../components/CreatePostModal';
 
-function ClubHeader({ clubname, me, createPost }) {
+function ClubHeader({ clubname, me, displayStatus, createPost }) {
     const [modalVisible, setModalVisible] = useState(false);
     const addPost = () => { setModalVisible(true); };
     return (
@@ -37,7 +37,9 @@ function ClubHeader({ clubname, me, createPost }) {
                 }}
                 onCancel={() => {
                     setModalVisible(false);
-                }}
+                }
+                }
+                displayStatus={displayStatus}
             />
         </div >
     );

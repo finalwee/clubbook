@@ -1,7 +1,7 @@
 import { Modal, Form, Input } from "antd";
 
 const CreatePostModal = ({ visible, onCreate,
-    onCancel }) => {
+    onCancel, displayStatus }) => {
     const [form] = Form.useForm();
     return (
         <Modal
@@ -14,7 +14,10 @@ const CreatePostModal = ({ visible, onCreate,
                     form.resetFields();
                     console.log(values);
                     onCreate(values);
-                }).catch((e) => { window.alert(e); });
+                }).catch((e) => { if(e.values.name === undefined)displayStatus({
+                    type: "error",
+                    msg: "Please enter the name of the person to chat",
+                  }) });
             }}>
             <Form form={form} layout="vertical"
                 name="form_in_modal">
