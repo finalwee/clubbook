@@ -3,6 +3,8 @@ import { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import Button  from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Paper  from '@material-ui/core/Paper';
@@ -111,6 +113,25 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow, set
     const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
     const classes = useStyles(props);
 
+    const calname = (me) => {
+
+        let name = '';
+        let length = 0;
+        let append = false;
+        for(let i=0;i<me.length;i++){
+            if(me[i].match(/^[0-9a-z]+$/) !== null){
+                if((length+1) > 10){append = true; break;}
+                else {name+=me[i];length+=1;}
+            }else{
+                if((length+2) > 10){append = true; break;}
+                else {name+=me[i];length+=2;}
+                console.log(me[i]);
+            }
+        }
+        if(append)return (name+'...');
+        return name;
+    }
+
     return (
         <>
         <div className={classes.root}>
@@ -184,7 +205,12 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow, set
                     </List>
                 }   
             </Paper>
-        </div>
+        </div> 
+        <Button variant="outlined" 
+            style={{position: 'absolute', paddingLeft: 5, paddingRight: 5, paddingTop: 0, paddingBottom:0, 
+                    backgroundColor: '#FFF', borderRadius: 30,  width: 'auto', left: 1410, top: 20, textTransform: 'none'}}>
+            {calname(me)}
+        </Button>
     </>
     );
 }

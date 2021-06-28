@@ -3,7 +3,7 @@ import Register from "../components/Register"
 import SignIn from '../components/SignIn';
 import HomePage from './HomePage';
 import { message } from "antd";
-import { Paper, CssBaseline, Typography, Divider, Button } from '@material-ui/core';
+import { Paper, CssBaseline, Typography,  Button } from '@material-ui/core';
 
 const displayStatus = (payload) => {
   if (payload.msg) {

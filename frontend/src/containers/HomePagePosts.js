@@ -11,7 +11,7 @@ function HomePagePosts({recover, setRecover}){
     const [title, setTitle] = useState(["唐詩分享", '打羽球', '打桌球', '寫web', '吹口琴', '彈鋼琴']);
     const [author, setAuthor] = useState(["Rick Huang", 'Listen', 'Ivone', 'David 周', 'Andy', 'Clover']);
     const [content, setContent] = useState(["床前明月光，疑是地上霜，舉頭望明月，低頭思故鄉", "我很會打羽球", '我很會打桌球', 'web好難', '爽爽吹口琴', '我強!']);
-    const [comments, setComments] = useState([[{ username: "Eric", comment_time: '2021-06-26T19:24:00', content: "一首好詩" }], [], [], [], [], []])
+    const [comments, setComments] = useState([[{ author: "Eric", comment_time: '2021-06-26T19:24:00', content: "一首好詩" }], [], [], [], [], []])
     const [postClick, setPostClick] = useState('');
 
     return(
