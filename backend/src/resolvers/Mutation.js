@@ -1,7 +1,28 @@
 import uuidv4 from 'uuid/v4';
+import bcrypt from 'bcrypt';
 
 const Mutation = {
-  
+  async createUser(parent, args, {db, pubsub}, info){
+    if(!args.name || !args.password)throw new Error("Missing name or password for CreateUser");
+
+    let existing = await db.UserModel.findOne({name: args.name});
+    if(existing) {
+      throw new Error("User name existed");
+    }
+
+    let newUser = new db.UserModel(args)
+    const salt = await bcrypt.genSalt(10);
+
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+    
+    await newUser.save(err => {
+      if(err) {
+        throw err;
+      }
+    });
+
+    return true;
+  },
   async createChatBox(parent, {name1, name2}, {db, pubsub}, info){
     if (!name1 || !name2)throw new Error("Missing chatbox name for CreateChatBox");
     let existing = await db.UserModel.find({name: name1});
