@@ -2,6 +2,7 @@ import { useState } from 'react';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import styled from 'styled-components';
+import { useFlag } from '../hooks/useFlag';
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
@@ -98,20 +99,21 @@ const StyledNavItem = styled(NavItem)`
 `;
 StyledNavItem.defaultProps = NavItem.defaultProps;
 
-function SideBar({setClubSelected, setRecover}){
+function SideBar({setClubSelected}){
 
     const [selected, setSelected] = useState("home");
+    const {setPostOriginal} = useFlag();
 
     return(
         <StyledSideNav
             onSelect={(eventKey)=>{
                 if (eventKey.slice(0, 5) === 'club/'){
                     setClubSelected(eventKey.slice(5, eventKey.length))
-                    setRecover(true)
+                    setPostOriginal(false);
                 }
                 else if (eventKey === 'home'){
                     setClubSelected('');
-                    setRecover(true)
+                    setPostOriginal(false);
                 }
             }}
         >

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import styled from "styled-components";
 import {useMutation} from '@apollo/react-hooks';
 import ChatBox from "../components/ChatBox";
+import { useFlag } from "../hooks/useFlag";
 import {CREATE_MESSAGE_MUTATION} from "../graphql/Mutation";
 
 const { TabPane } = Tabs;
@@ -67,10 +68,11 @@ const StyledIconButton = styled(IconButton)`
   margin-left: 50px;
 `;
 
-const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox, setShow}) => {  
+const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox}) => {  
   
   const [messageInput, setMessageInput] = useState("");
   const [activeKey, setActiveKey] = useState("");
+  const {setShowChatRoom} = useFlag();
   const [createDbMessage] = useMutation(CREATE_MESSAGE_MUTATION);
   const classes = useStyles();
 
@@ -93,7 +95,7 @@ const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox, setShow}) => {
         <div className={classes.AppTitle}>
           <Styledh1>
             Chat Room
-            <StyledIconButton onClick={()=>setShow(false)}
+            <StyledIconButton onClick={()=>setShowChatRoom(false)}
             >
               <CloseIcon/>
             </StyledIconButton>
@@ -104,7 +106,7 @@ const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox, setShow}) => {
           hideAdd={true}
           onChange={(key) => { setActiveKey(key); }}
           onEdit={(targetKey, action) => {
-            if (action === "remove") setActiveKey(removeChatBox(targetKey, activeKey, setShow));
+            if (action === "remove") setActiveKey(removeChatBox(targetKey, activeKey, setShowChatRoom));
           }}
         >
           {chatBoxes.map((

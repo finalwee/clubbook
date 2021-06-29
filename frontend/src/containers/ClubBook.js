@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Register from "../components/Register"
 import SignIn from '../components/SignIn';
 import HomePage from './HomePage';
+import { FlagProvider } from '../hooks/useFlag';
 import { message } from "antd";
 import { Paper, CssBaseline, Typography,  Button } from '@material-ui/core';
 
@@ -25,10 +26,13 @@ function ClubBook() {
   const [username, setUserName] = useState('Peter');
   const [signin, setSignIn] = useState(true);
   const [enter, setEnter] = useState(false);
+  
 
   return (
     enter ? 
-      <HomePage me={username} displayStatus={displayStatus}/> : 
+      <FlagProvider>
+        <HomePage me={username} displayStatus={displayStatus}/> 
+      </FlagProvider> : 
     signin ? 
       <div style={{ padding: 16, marginTop: 100, marginLeft: 500, maxWidth: 600 }}>
         <CssBaseline />

@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import SideBar from '../components/SideBar';
+import { useFlag } from '../hooks/useFlag';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -104,12 +105,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Header({me, displayStatus, createChatBox, setClubSelected, setShow, setRecover}) {
+function Header({me, displayStatus, createChatBox, setClubSelected}) {
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
     const [clubs, setClubs] = useState(['Badminton', 'Tennis', 'Piano', 'Math', 'Web']);
     const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
+    const {setPostOriginal, setShowChatRoom} = useFlag();
     const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
     const classes = useStyles(props);
 
@@ -137,7 +139,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow, set
         <div className={classes.root}>
         <AppBar position="static">
             <Toolbar>
-            <SideBar setClubSelected={setClubSelected} setRecover={setRecover}/>
+            <SideBar setClubSelected={setClubSelected}/>
             <div className={classes.searchclub}>
                 <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -180,7 +182,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow, set
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setClubSelected(item);setClubs([]);setRecover(true);}}
+                                onClick={() => {setClubSelected(item);setClubs([]);setPostOriginal(false);}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>
@@ -197,7 +199,7 @@ function Header({me, displayStatus, createChatBox, setClubSelected, setShow, set
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setFriends([]);setShow(true);createChatBox(item, me, displayStatus)}}
+                                onClick={() => {setFriends([]);setShowChatRoom(true);createChatBox(item, me, displayStatus)}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>

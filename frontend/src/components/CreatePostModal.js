@@ -16,7 +16,7 @@ const CreatePostModal = ({ visible, onCreate,
                     onCreate(values);
                 }).catch((e) => { if(e.values.name === undefined)displayStatus({
                     type: "error",
-                    msg: "Please enter the name of the person to chat",
+                    msg: "Please enter!",
                   }) });
             }}>
             <Form form={form} layout="vertical"

@@ -34,7 +34,7 @@ const useChatBox = () => {
     return newKey;
   };
 
-  const removeChatBox = (targetKey, activeKey, setShow) => {
+  const removeChatBox = (targetKey, activeKey, setShowChatRoom) => {
     let newActiveKey = activeKey;
     let lastIndex;
     chatBoxes.forEach(({ key }, i) => {
@@ -49,7 +49,7 @@ const useChatBox = () => {
       }
     } else newActiveKey = ""; // No chatBox left
     setChatBoxes(newChatBoxes);
-    if(newChatBoxes.length===0)setShow(false);
+    if(newChatBoxes.length===0)setShowChatRoom(false);
     return newActiveKey;
   };
   return { createChatBox, removeChatBox, chatBoxes };

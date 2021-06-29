@@ -1,14 +1,12 @@
 import { useState } from "react";
 import {
-    Paper,
-    Grid,
     Avatar,
     Button,
     ButtonGroup,
     Card,
     IconButton,
 } from '@material-ui/core';
-import { Input, message } from "antd";
+import { Input } from "antd";
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -16,9 +14,10 @@ import { CardHeader, CardMedia, CardContent, Typography, CardActions, Collapse }
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useFlag } from "../hooks/useFlag";
 
 
-function Post({clubname, me, displayStatus, title, author, content, comments, original}) {
+function Post({clubname, me, displayStatus, title, author, content, comments}) {
 
     const [commentsadded, setCommentAdded] = useState(comments);
     const [messageInput, setMessageInput] = useState("");
@@ -26,6 +25,8 @@ function Post({clubname, me, displayStatus, title, author, content, comments, or
     const [moodexpanded_primary, setMoodexpanded_primary] = useState(false);
     const [moodexpanded_secondary, setMoodexpanded_secondary] = useState(false);
     const [show, setShow] = useState(true);
+    const {postOriginal} = useFlag();
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -71,9 +72,9 @@ function Post({clubname, me, displayStatus, title, author, content, comments, or
         return date;
     };
     return (
-        <div style={original ? { padding: 16, margin: 'auto', maxWidth: 600 } : { padding: 16, margin: 'auto', width: 450 }}>{/*調整width */}
-            {(show || original) ? 
-            <Card style={original ? { backgroundColor: "white", padding: 20 } : { backgroundColor: "white", padding: 20, height: 280 }} 
+        <div style={postOriginal ? { padding: 16, margin: 'auto', maxWidth: 600 } : { padding: 16, margin: 'auto', width: 450 }}>{/*調整width */}
+            {(show || postOriginal) ? 
+            <Card style={postOriginal ? { backgroundColor: "white", padding: 20 } : { backgroundColor: "white", padding: 20, height: 280 }} 
                 onMouseOver={()=>setShow(()=>{return false})}>{/*調整height*/}
                 <CardHeader
                     avatar={
@@ -82,7 +83,7 @@ function Post({clubname, me, displayStatus, title, author, content, comments, or
                     title={title}
                     subheader={author}
                 />
-                <CardContent style={original ? {}: {height: 300}}>{/*調整height*/}
+                <CardContent style={postOriginal ? {}: {height: 300}}>{/*調整height*/}
                     <Typography variant="body2" color="textSecondary" component="p">
                         {content}
                     </Typography>
@@ -188,7 +189,6 @@ function Post({clubname, me, displayStatus, title, author, content, comments, or
                         textAlign='start'
                         style={{opacity: 0.6}}
                     />
-                    {/* <div style={{height: 110-10*(Math.floor(clubname.length/7))}}></div> */}
                     <div style={{textAlign: "center", marginTop: 40, marginBottom: 10*(Math.floor(clubname.length/7))}}>{clubname}</div>
                 </div>
             </Card>

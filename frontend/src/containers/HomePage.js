@@ -4,6 +4,7 @@ import Header from "./Header";
 import HomePagePosts from './HomePagePosts';
 import ClubPosts from './ClubPosts';
 import useChatBox from '../hooks/useChatBox';
+import { useFlag } from '../hooks/useFlag';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
@@ -29,19 +30,18 @@ function HomePage({me, displayStatus}) {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
     const [clubSelected, setClubSelected] = useState('');
-    const [show, setShow] = useState(false);
-    const [recover, setRecover] = useState(true);
-    let props = {visibility: (show ? 'visible' : 'hidden')};
+    const { showChatRoom } =useFlag();
+    let props = {visibility: (showChatRoom ? 'visible' : 'hidden')};
     const classes = useStyles(props);
     
     return(
         <div className={classes.homepage}>
-            {clubSelected === '' ? <HomePagePosts me={me} recover={recover} displayStatus={displayStatus} setRecover={setRecover}/> : 
-                <ClubPosts clubname={clubSelected} me={me} displayStatus={displayStatus} recover={recover} setRecover={setRecover}/>}
+            {clubSelected === '' ? <HomePagePosts me={me} displayStatus={displayStatus}/> : 
+                <ClubPosts clubname={clubSelected} me={me} displayStatus={displayStatus}/>}
             <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
-                setClubSelected={setClubSelected} setShow={setShow} setRecover={setRecover}/>
+                setClubSelected={setClubSelected}/>
             <div className={classes.chatroom}>
-                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox} setShow={setShow}/>
+                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
             </div>
         </div>
     );

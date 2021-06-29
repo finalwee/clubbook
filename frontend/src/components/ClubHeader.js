@@ -1,15 +1,10 @@
 import { useState } from "react";
 import {
-    Paper,
-    Grid,
-    Avatar,
-    Button,
-    ButtonGroup,
     Card,
     IconButton,
 } from '@material-ui/core';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
-import { CardHeader, CardMedia, CardContent, Typography, CardActions, Collapse } from "@material-ui/core";
+import { CardContent, Typography, } from "@material-ui/core";
 import CreatePostModal from '../components/CreatePostModal';
 
 function ClubHeader({ clubname, me, displayStatus, createPost }) {
