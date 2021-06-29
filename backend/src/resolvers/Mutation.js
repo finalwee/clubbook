@@ -40,6 +40,32 @@ const Mutation = {
       throw new Error("User did not exist");
     }
   },
+  async updateUser(parent, args, {db, pubsub}, info){
+    if(!args.userId) throw new Error("Missing userId for Update User");
+
+    let user = await db.UserModel.findById(args.userId);
+    if(!user) throw new Error("User did not exist");
+
+    if(args.email) user.email = args.email;
+
+    if(args.favourite) user.favourite = args.favourite;
+
+    if(args.subscribe){
+      for(let i = 0; i < args.subscribe.length; i++) {
+        user.subscribe.push(await db.ClubModel.findById(args.subscribe[i]));
+      }
+    }
+
+    if(args.friends){
+      for(let i = 0; i < args.friends.length; i++) {
+        user.friends.push(await db.UserModel.findById(args.friends[i]));
+      }
+    }
+
+    await user.save();
+
+    return true;
+  },
   async createChatBox(parent, {name1, name2}, {db, pubsub}, info){
     if (!name1 || !name2)throw new Error("Missing chatbox name for CreateChatBox");
     let existing = await db.UserModel.find({name: name1});
