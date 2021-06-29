@@ -61,7 +61,6 @@ function SignIn({setEnter}) {
                 setError(error => {return {...error, password: true}});
                 setHelperText(helperText => {return {...helperText, password: "Password Incorrect!"}}); 
             }
-            console.log(isvalid.data.userLogin);
         }catch(e){
             if(e.message === 'Missing name or password for User Login'){
                 if (me == ''){
