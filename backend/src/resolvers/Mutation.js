@@ -1,7 +1,44 @@
 import uuidv4 from 'uuid/v4';
+import bcrypt from 'bcrypt';
 
 const Mutation = {
-  
+  async createUser(parent, args, {db, pubsub}, info){
+    if(!args.name || !args.password)throw new Error("Missing name or password for CreateUser");
+
+    let existing = await db.UserModel.findOne({ name: args.name });
+    if(existing) throw new Error("User name existed");
+
+    let newUser = new db.UserModel(args)
+    const salt = await bcrypt.genSalt(10);
+    if (/\s/g.test(args.password)) {
+       throw new Error("Invalid password");
+    }
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+
+    await newUser.save(err => {
+      if(err) {
+        throw err;
+      }
+    });
+
+    return newUser._id;
+  },
+  async userLogin(parent, {name, password}, {db, pubsub}, info) {
+    if(!name || !password)throw new Error("Missing name or password for User Login");
+
+    let user = await db.UserModel.findOne({ name });
+    if(user) {
+      const validPassword = await bcrypt.compare(password, user.password);
+
+      if(validPassword) {
+        return true;
+      }
+      else {
+        return false;
+      }
+
+    }
+  },
   async createChatBox(parent, {name1, name2}, {db, pubsub}, info){
     if (!name1 || !name2)throw new Error("Missing chatbox name for CreateChatBox");
     let existing = await db.UserModel.find({name: name1});
@@ -156,6 +193,28 @@ const Mutation = {
     return true;
 
   },
+  async searchClub(parent, { keyword, start, end }, { db, pubsub }, info) {
+    if(!keyword) throw new Error("Missing keyword for search Club");
+
+    if(start > end) throw new Error("Invalid start and end for search Club");
+
+    let result = await db.ClubModel.find({ name: { $regex: keyword, $options: 'i' }}).limit(end - start + 1).sort({createtime: -1});
+
+    for(let i = 0; i < result.length; i++) {
+      result[i].author = await db.UserModel.findById(result[i].author)
+    }
+
+    return result;
+  },
+  async searchFriends(parent, { keyword, start, end }, { db, pubsub }, info) {
+    if(!keyword) throw new Error("Missing keyword for search Friends");
+
+    if(start > end) throw new Error("Invalid start and end for search Friends");
+
+    let result = await db.UserModel.find({ name: { $regex: keyword, $options: 'i' }}).limit(end - start + 1).sort({createtime: -1});
+
+    return result;
+  }
 };
 
 const makeName = (name, to) => {

@@ -8,6 +8,11 @@ const Query = {
     let chatbox = await db.ChatBoxModel.find({name: ChatBoxName});
     return Promise.all(chatbox[0].messages.map(id => db.MessageModel.findById(id)),);
   },
+  async user(parent, {userId}, {db}, info){
+    if( !userId ) throw new Error("Missing userId for Query user");
+
+    return await db.UserModel.findById(userId);
+  },
   async posts(parent, {clubId}, {db}, info){
     if( !clubId ) throw new Error("Missing clubId for Query posts");
 

@@ -1,15 +1,20 @@
 type Query {
   messages(name1: String, name2: String): [Message!]
+  user(userId: ID): User
   posts(clubId: ID): [Post]
   comments(postId: ID): [Comment]
 }
 
 type Mutation {
+  createUser(name: String!, password: String!, email: String): String
+  userLogin(name: String!, password: String!): Boolean
   createChatBox(name1: String, name2: String): ChatBox
   createMessage(sender: String, chatboxname: String, body: String): [Message!]
   createClub(name: String, author: String): Boolean
   createPost(body: String, author: String, clubName: String): Boolean
   createComment(body: String, commenter: String, postId: ID): Boolean
+  searchClub(keyword: String, start: Int, end: Int): [Club]
+  searchFriends(keyword: String, start: Int, end: Int): [User]
 }
 
 type Subscription {
@@ -41,6 +46,11 @@ type Comment {
 
 type User {
   name: String!
+  password: String!
+  email: String
+  friends: [User]
+  subscribe: [Club]
+  favourite: String
 }
 
 type ChatBox {

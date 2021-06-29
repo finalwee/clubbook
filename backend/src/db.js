@@ -4,6 +4,11 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   name: { type: String, required: true },
+  password: { type: String, required: true },
+  email: { type: String, required: false },
+  friends: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
+  subscribe: [{ type: mongoose.Types.ObjectId, ref: 'Club'}],
+  favourite: { type: String, required: false}
 });
 
 const messageSchema = new Schema({
