@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {useQuery} from '@apollo/react-hooks';
 import {Query_CHATBOX_Messages} from "../graphql/Query";
 import {MESSAGES_SUBSCRIPTION} from "../graphql/Subscription";
+import { useCommonProps } from "../containers/ClubBook";
 
 const useStyles = makeStyles(() => ({
     AppMessageLeft: {
@@ -32,8 +33,9 @@ const useStyles = makeStyles(() => ({
   }
   }));
 
-const ChatBox = ({me, friend, index}) => {
-        
+const ChatBox = ({friend, index}) => {
+    
+    const {me} = useCommonProps();
     const {data, subscribeToMore} = useQuery(Query_CHATBOX_Messages, {variables: {name1: me, name2: friend}});
     const classes = useStyles();
 

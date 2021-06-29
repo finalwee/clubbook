@@ -5,11 +5,14 @@ import {
   TextField,
   Divider
 } from '@material-ui/core';
+import { useCommonProps } from '../containers/ClubBook';
 
 
-function SignIn({setUserName, setEnter}) {
+
+function SignIn({setEnter}) {
 
     const [password, setPassWord] = useState('');
+    const {setMe} = useCommonProps();
 
   return (
         <Grid container alignItems="flex-start" spacing={2}>
@@ -19,7 +22,7 @@ function SignIn({setUserName, setEnter}) {
                     label="Username" 
                     type="text" 
                     variant="outlined" 
-                    onChange={evt => setUserName(evt.target.value)}
+                    onChange={evt => setMe(evt.target.value)}
                 />
             </Grid>
             <Grid item xs={12}>

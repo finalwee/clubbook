@@ -6,10 +6,13 @@ import {
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import { CardContent, Typography, } from "@material-ui/core";
 import CreatePostModal from '../components/CreatePostModal';
+import { useCommonProps } from "../containers/ClubBook";
 
-function ClubHeader({ clubname, me, displayStatus, createPost }) {
+function ClubHeader({ clubname, createPost }) {
     const [modalVisible, setModalVisible] = useState(false);
+    const {me} = useCommonProps();
     const addPost = () => { setModalVisible(true); };
+    
     return (
         <div style={{ padding: 16, margin: 'auto' }}>{/*調整width */}
             <Card style={{ backgroundColor: "white", padding: 20, width: 420, height: 280, display: 'flex', justify: 'content', alignItems: 'center', flexDirection: 'column' }}>
@@ -34,7 +37,6 @@ function ClubHeader({ clubname, me, displayStatus, createPost }) {
                     setModalVisible(false);
                 }
                 }
-                displayStatus={displayStatus}
             />
         </div >
     );

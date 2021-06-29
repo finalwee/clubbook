@@ -2,9 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Button  from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Paper  from '@material-ui/core/Paper';
@@ -15,6 +13,7 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import SideBar from '../components/SideBar';
 import { useFlag } from '../hooks/useFlag';
+import { useCommonProps } from './ClubBook';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -105,13 +104,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Header({me, displayStatus, createChatBox, setClubSelected}) {
+function Header({createChatBox, setClubSelected}) {
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
     const [clubs, setClubs] = useState(['Badminton', 'Tennis', 'Piano', 'Math', 'Web']);
     const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
     const {setPostOriginal, setShowChatRoom} = useFlag();
+    const {me, displayStatus} = useCommonProps();
     const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
     const classes = useStyles(props);
 

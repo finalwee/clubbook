@@ -5,6 +5,7 @@ import HomePagePosts from './HomePagePosts';
 import ClubPosts from './ClubPosts';
 import useChatBox from '../hooks/useChatBox';
 import { useFlag } from '../hooks/useFlag';
+import { useCommonProps } from './ClubBook';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
@@ -26,22 +27,22 @@ const useStyles = makeStyles(() => ({
     })
 }));
 
-function HomePage({me, displayStatus}) {
+function HomePage() {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
     const [clubSelected, setClubSelected] = useState('');
     const { showChatRoom } =useFlag();
+    const {me, displayStatus} = useCommonProps();
     let props = {visibility: (showChatRoom ? 'visible' : 'hidden')};
     const classes = useStyles(props);
     
     return(
         <div className={classes.homepage}>
-            {clubSelected === '' ? <HomePagePosts me={me} displayStatus={displayStatus}/> : 
-                <ClubPosts clubname={clubSelected} me={me} displayStatus={displayStatus}/>}
-            <Header me={me} displayStatus={displayStatus} createChatBox={createChatBox} 
-                setClubSelected={setClubSelected}/>
+            {clubSelected === '' ? <HomePagePosts/> : 
+                <ClubPosts clubname={clubSelected}/>}
+            <Header createChatBox={createChatBox} setClubSelected={setClubSelected}/>
             <div className={classes.chatroom}>
-                <ChatRoom me={me} displayStatus={displayStatus} chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
+                <ChatRoom chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
             </div>
         </div>
     );

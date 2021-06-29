@@ -15,9 +15,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useFlag } from "../hooks/useFlag";
+import { useCommonProps } from "../containers/ClubBook";
 
 
-function Post({clubname, me, displayStatus, title, author, content, comments}) {
+function Post({clubname, title, author, content, comments}) {
 
     const [commentsadded, setCommentAdded] = useState(comments);
     const [messageInput, setMessageInput] = useState("");
@@ -26,6 +27,7 @@ function Post({clubname, me, displayStatus, title, author, content, comments}) {
     const [moodexpanded_secondary, setMoodexpanded_secondary] = useState(false);
     const [show, setShow] = useState(true);
     const {postOriginal} = useFlag();
+    const {me, displayStatus} = useCommonProps();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -170,7 +172,6 @@ function Post({clubname, me, displayStatus, title, author, content, comments}) {
                                     };
                                     setCommentAdded([...commentsadded, newcomment]);
                                     setMessageInput("");
-                                    console.log(...comments);
                                 }}
                             ></Input.Search>
                         </CardContent>

@@ -7,6 +7,7 @@ import styled from "styled-components";
 import {useMutation} from '@apollo/react-hooks';
 import ChatBox from "../components/ChatBox";
 import { useFlag } from "../hooks/useFlag";
+import { useCommonProps } from "./ClubBook";
 import {CREATE_MESSAGE_MUTATION} from "../graphql/Mutation";
 
 const { TabPane } = Tabs;
@@ -68,11 +69,12 @@ const StyledIconButton = styled(IconButton)`
   margin-left: 50px;
 `;
 
-const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox}) => {  
+const ChatRoom = ({ chatBoxes, removeChatBox}) => {  
   
   const [messageInput, setMessageInput] = useState("");
   const [activeKey, setActiveKey] = useState("");
   const {setShowChatRoom} = useFlag();
+  const {me, displayStatus} = useCommonProps();
   const [createDbMessage] = useMutation(CREATE_MESSAGE_MUTATION);
   const classes = useStyles();
 
@@ -113,7 +115,7 @@ const ChatRoom = ({ me, displayStatus, chatBoxes, removeChatBox}) => {
             { friend, key }, i) => {
               return (
                 <TabPane tab={friend} key={key} closable={true}>
-                  <ChatBox me={me} friend={friend} index={i}/>
+                  <ChatBox friend={friend} index={i}/>
                 </TabPane>
             );})}
          </Tabs>

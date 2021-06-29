@@ -1,8 +1,11 @@
 import { Modal, Form, Input } from "antd";
+import { useCommonProps } from "../containers/ClubBook";
 
 const CreatePostModal = ({ visible, onCreate,
-    onCancel, displayStatus }) => {
+    onCancel}) => {
     const [form] = Form.useForm();
+    const {displayStatus} = useCommonProps();
+
     return (
         <Modal
             visible={visible}
