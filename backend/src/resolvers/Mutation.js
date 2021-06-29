@@ -165,7 +165,6 @@ const Mutation = {
 
     for(let i = 0; i < club.posts.length; i++) {
       let find = await db.PostModel.findById(club.posts[i]);
-      console.log(find)
       let author = await db.UserModel.findById(find.author);
 
       subscripPost.push({author: author, body: find.body, createTime: find.createTime});
