@@ -29,14 +29,15 @@ const Mutation = {
     let user = await db.UserModel.findOne({ name });
     if(user) {
       const validPassword = await bcrypt.compare(password, user.password);
-
       if(validPassword) {
         return true;
       }
       else {
         return false;
       }
-
+    }
+    else {
+      throw new Error("User did not exist");
     }
   },
   async createChatBox(parent, {name1, name2}, {db, pubsub}, info){

@@ -46,7 +46,7 @@ type Comment {
 
 type User {
   name: String!
-  password: String!
+  password: String
   email: String
   friends: [User]
   subscribe: [Club]
