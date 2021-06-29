@@ -1,5 +1,4 @@
 import {React, useState} from 'react';
-import { Form } from 'react-final-form';
 import {
   Typography,
   Paper,
@@ -21,6 +20,10 @@ import {
   MuiPickersUtilsProvider,
   DatePicker
 } from '@material-ui/pickers';
+import {useMutation} from '@apollo/react-hooks';
+import {CREATE_USER_MUTATION} from "../graphql/Mutation";
+import {UPDATE_USER_MUTATION} from "../graphql/Mutation";
+import { useCommonProps } from '../containers/ClubBook';
 
 
 function Register({setEnter}) {
@@ -30,7 +33,7 @@ function Register({setEnter}) {
     email: '',
     password_origin: '',
     password_again: '',
-    interest: ''
+    favourite: ''
   });
 
   const [date, setDate] = useState(new Date());
@@ -45,7 +48,7 @@ function Register({setEnter}) {
     email: '',
     password_origin: "English letters and numbers only. Length > 5",
     password_again: "Should be the same as the above",
-    interest: ''
+    favourite: ''
   })
 
   const [error, setError] = useState({
@@ -55,9 +58,14 @@ function Register({setEnter}) {
     password_again: false
   });
 
-  const [validSubmit, setValidSubmit] = useState(false);
+  const [createUser] = useMutation(CREATE_USER_MUTATION);
+  const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+  const {setMe} = useCommonProps();
+  
 
   const Validate = (entity, value) => {
+
+    let error = 0;
 
     switch(entity){
       // username   
@@ -65,6 +73,7 @@ function Register({setEnter}) {
         if (value == ''){
           setError(error => {return {...error, username: true}});
           setHelperText(helperText => {return {...helperText, username: "Required!"}}); 
+          error += 1;
         }else {
           setError(error => {return {...error, username: false}});
           setHelperText(helperText => {return {...helperText, username: ""}}); 
@@ -75,9 +84,11 @@ function Register({setEnter}) {
         if (value == ''){
           setError(error => {return {...error, email: true}});
           setHelperText(helperText => {return {...helperText, email: "Required!"}}); 
+          error += 1;
         }else if (value.search('@') == -1 || value.search('@') == 0 || value.search('@') == value.length-1){
           setError(error => {return {...error, email: true}});
           setHelperText(helperText => {return {...helperText, email: "Invalid Email Address!"}}); 
+          error += 1;
         }else{
           setError(error => {return {...error, email: false}});
           setHelperText(helperText => {return {...helperText, email: ""}}); 
@@ -88,12 +99,15 @@ function Register({setEnter}) {
         if (value == ''){
           setError(error => {return {...error, password_origin: true}});
           setHelperText(helperText => {return {...helperText, password_origin: "Required!"}}); 
+          error += 1;
         }else if(value.match(/^[0-9a-zA-Z]+$/) == null){
           setError(error => {return {...error, password_origin: true}});
           setHelperText(helperText => {return {...helperText, password_origin: "English letters and numbers only!"}}); 
+          error += 1;
         }else if(value.length < 5){
           setError(error => {return {...error, password_origin: true}});
           setHelperText(helperText => {return {...helperText, password_origin: "The length of the password should be larger than 5!"}}); 
+          error += 1;
         }else{
           setError(error => {return {...error, password_origin: false}});
           setHelperText(helperText => {return {...helperText, password_origin: ""}}); 
@@ -104,15 +118,18 @@ function Register({setEnter}) {
         if (value == ''){
           setError(error => {return {...error, password_again: true}});
           setHelperText(helperText => {return {...helperText, password_again: "Required!"}}); 
+          error += 1;
         }else if(value !== values.password_origin){
           setError(error => {return {...error, password_again: true}});
           setHelperText(helperText => {return {...helperText, password_again: "Not the same as the above!"}}); 
+          error += 1;
         }else{
           setError(error => {return {...error, password_again: false}});
           setHelperText(helperText => {return {...helperText, password_again: ""}}); 
         }
         break;
     }
+    return error;
   };
 
   const handleChange = (entity) => (event) =>{
@@ -128,12 +145,46 @@ function Register({setEnter}) {
     else setShowPassWord(showPassword => {return {origin: showPassword.origin, again: !showPassword.again}});
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
 
-    // for (let [key, value] of Object.entries(values)){
-    //   Validate(key, value);
-    // }
-    setEnter(true);
+    let error = 0;
+
+    for (let [key, value] of Object.entries(values)){
+      error += Validate(key, value);
+    }
+    if(error === 0){
+      try{
+        let user = await createUser({
+            variables: {
+            name: values.username,
+            password: values.password_origin,
+            },
+          })
+        let userId = user.data.createUser;
+        await updateUser({
+          variables: {
+            userId: userId,
+            email: values.email, 
+            favourite: values.favourite, 
+            }
+          }
+        );
+        setMe(values.username);
+        setEnter(true);
+
+      }catch(e){
+        if(e.message === 'User name existed'){
+          setError(error => {return {...error, username: true}});
+          setHelperText(helperText => {return {...helperText, username: values.username+" has been registered!"}});
+        }
+        else if(e.message === 'Invalid password'){
+          setError(error => {return {...error, password_origin: true}});
+          setHelperText(helperText => {return {...helperText, password_origin: 'Invalid password!'}});
+        }
+        console.log(e.message);
+      }
+    }
+    
   }
 
   return (
@@ -218,10 +269,10 @@ function Register({setEnter}) {
             <TextField
               fullWidth
               type="text"
-              value={values.interest}
-              name="Interest"
-              label="Interest"
-              onChange={handleChange('interest')}
+              value={values.favourite}
+              name="Favourite"
+              label="Favourite"
+              onChange={handleChange('favourite')}
               helperText={helperText.interest}
             />
           </Grid>
