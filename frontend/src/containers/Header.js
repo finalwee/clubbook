@@ -14,6 +14,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import SideBar from '../components/SideBar';
 import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from './ClubBook';
+import {useMutation} from '@apollo/react-hooks';
+import {SEARCH_CLUB_MUTATION} from "../graphql/Mutation";
+import {SEARCH_FRIENDS_MUTATION} from "../graphql/Mutation";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,13 +84,13 @@ const useStyles = makeStyles((theme) => ({
         position: 'absolute',
         width: 233,
         left: 148,
-        bottom: -211-props.clubcount,
+        bottom: props.clubcount<=23 ? -211-props.clubcount : -211-23,
     }),
     friendsearchpaper: props => ({
         position: 'absolute',
         width: 233,
         left: 1163,
-        bottom: -215-props.friendcount,
+        bottom: props.friendcount<=67 ? -215-props.friendcount : -215-67,
     }),
     clublist: {
         maxWidth: 360,
@@ -106,10 +109,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Header({createChatBox, setClubSelected}) {
 
-    const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
-    const [clubs, setClubs] = useState(['Badminton', 'Tennis', 'Piano', 'Math', 'Web']);
-    const [friends, setFriends] = useState(['Peter', 'Amy', 'Eric', 'Allen', 'Linda', 'Sherry']);
+    const [clubs, setClubs] = useState([]);
+    const [searchClub] = useMutation(SEARCH_CLUB_MUTATION);
+    const [searchFriends] = useMutation(SEARCH_FRIENDS_MUTATION);
+    const [friends, setFriends] = useState([]);
     const {setPostOriginal, setShowChatRoom} = useFlag();
     const {me, displayStatus} = useCommonProps();
     const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
@@ -127,7 +131,6 @@ function Header({createChatBox, setClubSelected}) {
             }else{
                 if((length+2) > 10){append = true; break;}
                 else {name+=me[i];length+=2;}
-                console.log(me[i]);
             }
         }
         if(append)return (name+'...');
@@ -146,7 +149,21 @@ function Header({createChatBox, setClubSelected}) {
                 </div>
                 <InputBase
                 placeholder="Search Club"
-                onChange={evt => setClubSearch(() => {return evt.target.value;})}
+                onChange={async evt => {
+                        let clubsSearched = await searchClub({
+                            variables: {
+                            keyword: evt.target.value,
+                            },
+                        });
+                        let clubs=[];
+                        if(clubsSearched.data.searchClub!==null){
+                            clubs = clubsSearched.data.searchClub.map(club=>{
+                                return club.name;   
+                            })
+                        }
+                        setClubs(clubs);
+                    }
+                }
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -163,7 +180,21 @@ function Header({createChatBox, setClubSelected}) {
                 </div>
                 <InputBase
                 placeholder="Search Friend"
-                onChange={evt => setFriendSearch(() => {return evt.target.value;})}
+                onChange={async evt => {
+                    let friendsSearched = await searchFriends({
+                        variables: {
+                        keyword: evt.target.value,
+                        },
+                    });
+                    let friends=[];
+                    if(friendsSearched.data.searchFriends!==null){
+                        friends = friendsSearched.data.searchFriends.map(friend=>{
+                            return friend.name;   
+                        })
+                    }
+                    setFriends(friends);
+                }
+            }
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
