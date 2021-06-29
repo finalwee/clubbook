@@ -16,6 +16,7 @@ type Mutation {
   createComment(body: String, commenter: String, postId: ID): Boolean
   searchClub(keyword: String, start: Int, end: Int): [Club]
   searchFriends(keyword: String, start: Int, end: Int): [User]
+  joinedClub(userName: String!, clubName: String!): Boolean
 }
 
 type Subscription {
