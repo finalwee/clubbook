@@ -193,7 +193,7 @@ const Mutation = {
     return true;
 
   },
-  async searchClub(parent, { keyword, start, end }, { db, pubsub }, info){
+  async searchClub(parent, { keyword, start, end }, { db, pubsub }, info) {
     if(!keyword) throw new Error("Missing keyword for search Club");
 
     if(start > end) throw new Error("Invalid start and end for search Club");
@@ -203,6 +203,15 @@ const Mutation = {
     for(let i = 0; i < result.length; i++) {
       result[i].author = await db.UserModel.findById(result[i].author)
     }
+
+    return result;
+  },
+  async searchFriends(parent, { keyword, start, end }, { db, pubsub }, info) {
+    if(!keyword) throw new Error("Missing keyword for search Friends");
+
+    if(start > end) throw new Error("Invalid start and end for search Friends");
+
+    let result = await db.UserModel.find({ name: { $regex: keyword, $options: 'i' }}).limit(end - start + 1).sort({createtime: -1});
 
     return result;
   }
