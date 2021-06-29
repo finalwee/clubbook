@@ -16,3 +16,32 @@ export const Query_CHATBOX_Messages = gql`
     }
   }
 `;
+
+export const QUERY_POSTS = gql`
+  query posts(
+    $clubName: String
+    $username: String
+    $begin: Int
+    $end: Int
+  ){
+    posts(
+      clubName: $clubName
+      username: $username
+      begin: $begin
+      end: $end
+    ){
+      author{
+        name
+      } 
+      createtime
+      body
+      comments{
+        commenter{
+          name
+        }
+        createTime
+        body
+      }
+    }
+  }
+`;

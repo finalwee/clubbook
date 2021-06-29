@@ -37,7 +37,10 @@ const Query = {
 
     post = post.sort((a, b) => b.createTime - a.createTime);
 
-    return post.slice(begin-1, end);
+    console.log(post.length);
+    if(begin > post.length){console.log("hi");return [];}
+    else if(end >= post.length){console.log("op");return post.slice(begin-1, 5);}
+    else return post.slice(begin-1, end);
   },
   async comments(parent, {postId}, {db}, info) {
     if( !postId ) throw new Error("Missing postId for Query comments");
