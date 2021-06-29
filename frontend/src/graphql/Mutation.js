@@ -78,3 +78,33 @@ mutation userLogin(
   )
 }
 `;
+
+export const CREATE_USER_MUTATION = gql`
+mutation createUser(
+  $name: String!
+  $password: String!
+){
+  createUser(
+    name: $name
+    password: $password
+  )
+}
+`;
+
+export const UPDATE_USER_MUTATION = gql`
+mutation updateUser(
+  $userId: ID!
+  $email: String
+  $friends: [ID]
+  $subscribe: [ID]
+  $favourite: String
+){
+  updateUser(
+    userId: $userId
+    email: $email
+    friends: $friends
+    subscribe: $subscribe
+    favourite: $favourite
+  )
+}
+`;

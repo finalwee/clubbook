@@ -77,7 +77,9 @@ function ClubBook() {
         </div>
       </CommonPropsProvider>
        :
-      <Register setEnter={setEnter}/>
+      <CommonPropsProvider>
+        <Register setEnter={setEnter}/>
+      </CommonPropsProvider>
   );
 }
 
