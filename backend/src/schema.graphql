@@ -34,7 +34,7 @@ type Club {
 
 type Post {
   author: User!
-  createTime: String
+  createtime: String
   body: String!
   comments: [Comment]
 }

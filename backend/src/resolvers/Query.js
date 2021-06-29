@@ -14,22 +14,30 @@ const Query = {
     return await db.UserModel.findById(userId);
   },
   async posts(parent, { clubName, username, begin, end}, {db}, info){
+    if(clubName && username) throw new Error("Choose only clubname or username");
     let post = [];
 
     if(username) {
       let user = await db.UserModel.findOne({ name: username }).populate('subscribe');
       for(let i = 0; i < user.subscribe.length; i++) {
-        await user.subscribe.populate('posts');
+        for(let j = 0; j < user.subscribe[i].posts.length; j++) {
+          post.push(await db.PostModel.findById(user.subscribe[i].posts[j]))
+        }
       }
     }
-    console.log(user.subscribe);
+
     if(clubName) {
-      let club = await db.ClubModel.find({ name: clubName,  }).populate('posts').populate('author');
+      let club = await db.ClubModel.findOne({ name: clubName }).populate('posts').populate('author');
+      post = club.posts;
     }
     
-    //console.log(post)
+    for(let i = 0; i < post.length; i++){
+      post[i].author = await db.UserModel.findById(post[i].author);
+    }
 
-    //return post;
+    post = post.sort((a, b) => b.createtime - a.createtime);
+
+    return post.slice(begin-1, end);
   },
   async comments(parent, {postId}, {db}, info) {
     if( !postId ) throw new Error("Missing postId for Query comments");
