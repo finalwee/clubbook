@@ -1,13 +1,14 @@
 type Query {
   messages(name1: String, name2: String): [Message!]
   user(userId: ID): User
-  posts(clubId: ID): [Post]
+  posts(clubName: String, username: String, begin: Int, end: Int): [Post]
   comments(postId: ID): [Comment]
 }
 
 type Mutation {
   createUser(name: String!, password: String!, email: String): String
   userLogin(name: String!, password: String!): Boolean
+  updateUser(userId: ID!, email: String, friends: [ID], subscribe: [ID], favourite: String): Boolean
   createChatBox(name1: String, name2: String): ChatBox
   createMessage(sender: String, chatboxname: String, body: String): [Message!]
   createClub(name: String, author: String): Boolean
@@ -83,5 +84,5 @@ type PostSubscriptionPayload {
 }
 
 input UserInput {
-  name: String!
+  id: ID
 }

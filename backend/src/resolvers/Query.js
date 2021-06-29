@@ -13,24 +13,26 @@ const Query = {
 
     return await db.UserModel.findById(userId);
   },
-  async posts(parent, {clubId}, {db}, info){
-    if( !clubId ) throw new Error("Missing clubId for Query posts");
-
-    let club = await db.ClubModel.findById(clubId);
-    console.log(club.posts)
-
+  async posts(parent, { clubName, username, begin, end}, {db}, info){
     let post = [];
 
-    for(let i = 0; i < club.posts.length; i++) {
-      let find = await db.PostModel.findById(club.posts[i]);
-      let author = await db.UserModel.findById(find.author);
-      post.push({author: author, body: find.body, createTime: find.createtime});
+    if(username) {
+      let user = await db.UserModel.findOne({ name: username }).populate('subscribe');
+      for(let i = 0; i < user.subscribe.length; i++) {
+        await user.subscribe.populate('posts');
+      }
     }
+    console.log(user.subscribe);
+    if(clubName) {
+      let club = await db.ClubModel.find({ name: clubName,  }).populate('posts').populate('author');
+    }
+    
+    //console.log(post)
 
-    return post;
+    //return post;
   },
   async comments(parent, {postId}, {db}, info) {
-    if( !postId ) throw new Error("Missing postId! for Query comments");
+    if( !postId ) throw new Error("Missing postId for Query comments");
 
     let post = await db.PostModel.findById(postId);
 
