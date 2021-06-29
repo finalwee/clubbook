@@ -141,7 +141,7 @@ const Mutation = {
     }
 
   },
-  async createPost(parent, { author, body, clubName }, { db, pubsub }, info) {
+  async createPost(parent, { author, title, body, clubName }, { db, pubsub }, info) {
     if(!author || !body || !clubName) throw new Error("Missing input for create post");
     let user = await db.UserModel.findOne({ name: author });
     
@@ -155,7 +155,7 @@ const Mutation = {
       throw new Error("Club do not exist");
     }
 
-    let newPost = new db.PostModel({author: user, body, createTime: Date.now()});
+    let newPost = new db.PostModel({author: user, title, body, createTime: Date.now()});
     await newPost.save();
 
     club.posts.push(newPost);
