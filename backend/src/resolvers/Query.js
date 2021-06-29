@@ -35,7 +35,7 @@ const Query = {
       post[i].author = await db.UserModel.findById(post[i].author);
     }
 
-    post = post.sort((a, b) => b.createtime - a.createtime);
+    post = post.sort((a, b) => b.createTime - a.createTime);
 
     console.log(post.length);
     if(begin > post.length){console.log("hi");return [];}
