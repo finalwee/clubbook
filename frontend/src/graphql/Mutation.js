@@ -34,3 +34,35 @@ export const CREATE_MESSAGE_MUTATION = gql`
     }
   }
 `;
+
+export const SEARCH_CLUB_MUTATION = gql`
+mutation searchClub(
+    $keyword: String
+    $start: Int
+    $end: Int
+  ){
+  searchClub(
+    keyword: $keyword
+    start: $start
+    end: $end
+  ){
+    name
+  }
+}
+`;
+
+export const SEARCH_FRIENDS_MUTATION = gql`
+mutation searchFriends(
+    $keyword: String
+    $start: Int
+    $end: Int
+  ){
+  searchFriends(
+    keyword: $keyword
+    start: $start
+    end: $end
+  ){
+    name
+  }
+}
+`;
