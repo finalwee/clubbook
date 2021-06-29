@@ -243,6 +243,19 @@ const Mutation = {
     let result = await db.UserModel.find({ name: { $regex: keyword, $options: 'i' }}).limit(end - start + 1).sort({createtime: -1});
 
     return result;
+  },
+  async joinedClub(parent, { userName, clubName }, { db, pubsub }, info) {
+    if(!userName || !clubName) throw new Error("Missing userName or clubName for joinedClub");
+
+    let user = await db.UserModel.findOne({name: userName}).populate('subscribe');
+
+    if(!user) throw new Error("Invalid userName");
+    
+    for(let i = 0; i < user.subscribe.length; i++) {
+      if(user.subscribe[i].name === clubName) return true;
+    }
+
+    return false;
   }
 };
 
