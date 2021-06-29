@@ -33,7 +33,8 @@ export const QUERY_POSTS = gql`
       author{
         name
       } 
-      createtime
+      title
+      clubName
       body
       comments{
         commenter{

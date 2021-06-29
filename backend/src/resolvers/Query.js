@@ -37,9 +37,8 @@ const Query = {
 
     post = post.sort((a, b) => b.createTime - a.createTime);
 
-    console.log(post.length);
-    if(begin > post.length){console.log("hi");return [];}
-    else if(end >= post.length){console.log("op");return post.slice(begin-1, 5);}
+    if(begin > post.length){return [];}
+    else if(end >= post.length){return post.slice(begin-1, 5);}
     else return post.slice(begin-1, end);
   },
   async comments(parent, {postId}, {db}, info) {

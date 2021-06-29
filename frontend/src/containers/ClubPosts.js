@@ -11,7 +11,7 @@ import {useQuery} from '@apollo/react-hooks';
 function ClubPosts({clubname,}){
 
     const {data} = useQuery(QUERY_POSTS, {variables: {clubName: clubname, begin: 1, end: 5}});
-    let title = data?.posts?.map(post => {return post.createtime});
+    let title = data?.posts?.map(post => {return post.title});
     let author = data?.posts?.map(post => {return post.author.name});
     let content = data?.posts?.map(post => {return post.body});
     let comments = data?.posts?.map(post => {return post.comments});
