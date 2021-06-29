@@ -66,3 +66,15 @@ mutation searchFriends(
   }
 }
 `;
+
+export const USER_LOGIN_MUTATION = gql`
+mutation userLogin(
+  $name: String!
+  $password: String!
+){
+  userLogin(
+    name: $name
+    password: $password
+  )
+}
+`;

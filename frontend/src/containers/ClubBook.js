@@ -14,7 +14,7 @@ const CommonProps = createContext({
 
 const CommonPropsProvider = (props) =>
 {
-  const [me, setMe] = useState('Peter');
+  const [me, setMe] = useState('');
   const displayStatus = (payload) => {
     if (payload.msg) {
       const { type, msg } = payload
