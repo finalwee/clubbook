@@ -155,7 +155,7 @@ const Mutation = {
       throw new Error("Club do not exist");
     }
 
-    let newPost = new db.PostModel({author: user, title, body, createTime: Date.now()});
+    let newPost = new db.PostModel({author: user, title, clubName: clubName, body, createTime: Date.now()});
     await newPost.save();
 
     club.posts.push(newPost);
@@ -165,9 +165,10 @@ const Mutation = {
 
     for(let i = 0; i < club.posts.length; i++) {
       let find = await db.PostModel.findById(club.posts[i]);
+      console.log(find)
       let author = await db.UserModel.findById(find.author);
 
-      subscripPost.push({author: author, body: find.body, createTime: find.createtime});
+      subscripPost.push({author: author, body: find.body, createTime: find.createTime});
     }
 
     pubsub.publish(`Club ${club._id}`, {

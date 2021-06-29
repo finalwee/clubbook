@@ -36,7 +36,8 @@ type Club {
 type Post {
   author: User!
   title: String!
-  createtime: String
+  createTime: String
+  clubName: String!
   body: String!
   comments: [Comment]
 }

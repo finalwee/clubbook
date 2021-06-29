@@ -23,14 +23,15 @@ const chatBoxSchema = new Schema({
 
 const commentSchema = new Schema({
   commenter: { type: mongoose.Types.ObjectId, ref: 'User' },
-  createtime: { type: Date, default: Date.now },
+  createTime: { type: Date, default: Date.now },
   body:[{ type: String, required: true }]
 });
 
 const postSchema = new Schema({
   author: { type: mongoose.Types.ObjectId, ref: 'User' },
   title: { type: String, required: true },
-  createtime: { type: Date, default: Date.now },
+  createTime: { type: Date, default: Date.now },
+  clubName: { type: String, required: true },
   body: { type: String, required: true },
   comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
 });
@@ -38,7 +39,7 @@ const postSchema = new Schema({
 const clubSchema = new Schema({
   author: { type: mongoose.Types.ObjectId, ref: 'User' },
   name: { type: String, required: true },
-  createtime: { type: Date, default: Date.now },
+  createTime: { type: Date, default: Date.now },
   posts: [{ type: mongoose.Types.ObjectId, ref: 'Post'}],
   keywords: [{ type: String, required: true}]
 });
