@@ -52,13 +52,19 @@ const Mutation = {
 
     if(args.subscribe){
       for(let i = 0; i < args.subscribe.length; i++) {
-        user.subscribe.push(await db.ClubModel.findById(args.subscribe[i]));
+        let club = await db.ClubModel.findOne({ name: args.subscribe[i] })
+        if(!user.subscribe.includes(club._id)){
+          user.subscribe.push(club);
+        }
       }
     }
 
     if(args.friends){
       for(let i = 0; i < args.friends.length; i++) {
-        user.friends.push(await db.UserModel.findById(args.friends[i]));
+        let friend = await db.UserModel.findOne({ name: args.friends[i] });
+        if(!user.friends.includes(friend._id)) {
+          user.friends.push(friend);
+        }
       }
     }
 
