@@ -36,6 +36,7 @@ const Mutation = {
       else {
         return false;
       }
+
     }
   },
   async createChatBox(parent, {name1, name2}, {db, pubsub}, info){
@@ -192,6 +193,19 @@ const Mutation = {
     return true;
 
   },
+  async searchClub(parent, { keyword, start, end }, { db, pubsub }, info){
+    if(!keyword) throw new Error("Missing keyword for search Club");
+
+    if(start > end) throw new Error("Invalid start and end for search Club");
+
+    let result = await db.ClubModel.find({ name: { $regex: keyword, $options: 'i' }}).limit(end - start + 1).sort({createtime: -1});
+
+    for(let i = 0; i < result.length; i++) {
+      result[i].author = await db.UserModel.findById(result[i].author)
+    }
+
+    return result;
+  }
 };
 
 const makeName = (name, to) => {

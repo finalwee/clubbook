@@ -13,6 +13,7 @@ type Mutation {
   createClub(name: String, author: String): Boolean
   createPost(body: String, author: String, clubName: String): Boolean
   createComment(body: String, commenter: String, postId: ID): Boolean
+  searchClub(keyword: String, start: Int, end: Int): [Club]
 }
 
 type Subscription {
