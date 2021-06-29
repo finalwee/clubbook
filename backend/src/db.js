@@ -29,6 +29,7 @@ const commentSchema = new Schema({
 
 const postSchema = new Schema({
   author: { type: mongoose.Types.ObjectId, ref: 'User' },
+  title: { type: String, required: true },
   createtime: { type: Date, default: Date.now },
   body: { type: String, required: true },
   comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }]
