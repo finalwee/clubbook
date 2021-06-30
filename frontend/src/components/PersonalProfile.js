@@ -9,20 +9,32 @@ import {
     IconButton,
 } from '@material-ui/core';
 import { useCommonProps } from "../containers/ClubBook";
+import {QUERY_USERS} from "../graphql/Query";
+import {useQuery} from '@apollo/react-hooks';
 
 
 function PersonalProfile() {
-    const [email, setEmail] = useState('b06901168@ntu.edu.tw');
-    const [favourite, setFavourite] = useState('sleep');
-    const [friends, setFriends] = useState(['Peter', 'Jeff', 'Kevin', 'Edan', 'Kane', 'Lisheng', 'David']);
-    const [clubs, setClubs] = useState(['羽球社', '網球社', '鋼琴社', '口琴社', '國樂社', '美食社', '書法社']);
+
+    const {me} = useCommonProps();
+    const userInfo = useQuery(QUERY_USERS, {variables: {username: me}});
+    let email = userInfo?.data?.user?.email;
+    let favourite = userInfo?.data?.user?.favourite;
+    let clubs = userInfo?.data?.user?.subscribe?.map(club => {return club.name});
+    let friends = userInfo?.data?.user?.friends?.map(friend => {return friend.name});
+    email = email === undefined ? '' : email;
+    favourite = favourite === undefined ? '' : favourite;
+    clubs = clubs === undefined ? [] : clubs;
+    friends = friends === undefined ? [] : friends;
+    // const [email, setEmail] = useState('b06901168@ntu.edu.tw');
+    // const [favourite, setFavourite] = useState('sleep');
+    // const [friends, setFriends] = useState(['Peter', 'Jeff', 'Kevin', 'Edan', 'Kane', 'Lisheng', 'David']);
+    // const [clubs, setClubs] = useState(['羽球社', '網球社', '鋼琴社', '口琴社', '國樂社', '美食社', '書法社']);
     const [aboutvisible, setAboutvisible] = useState('hidden');
     const [friendvisible, setFriendvisible] = useState('hidden');
     const [clubvisible, setClubvisible] = useState('hidden');
     const [aboutbuttonvisible, setAboutbuttonvisible] = useState('visible');
     const [friendbuttonvisible, setFriendbuttonvisible] = useState('visible');
     const [clubbuttonvisible, setClubbuttonvisible] = useState('visible');
-    const {me} = useCommonProps();
     const calname = (name) => {
         let length = 0;
         for (let i = 0; i < name.length; i++) {
