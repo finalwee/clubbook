@@ -163,7 +163,7 @@ function Register({setEnter}) {
         let userId = user.data.createUser;
         await updateUser({
           variables: {
-            userId: userId,
+            username: values.username,
             email: values.email, 
             favourite: values.favourite, 
             }

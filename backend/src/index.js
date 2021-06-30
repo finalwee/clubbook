@@ -5,6 +5,10 @@ import Mutation from './resolvers/Mutation';
 import Subscription from './resolvers/Subscription';
 import ChatBox from './resolvers/ChatBox';
 import Message from './resolvers/Message';
+import Comment from './resolvers/Comment';
+import Club from './resolvers/Club';
+import Post from './resolvers/Post';
+import User from './resolvers/User';
 import mongo from './mongo';
 
 const pubsub = new PubSub();
@@ -17,6 +21,10 @@ const server = new GraphQLServer({
     Subscription,
     ChatBox,
     Message,
+    Club,
+    Comment,
+    User, 
+    Post
   },
   context: {
     db,

@@ -46,3 +46,22 @@ export const QUERY_POSTS = gql`
     }
   }
 `;
+
+export const QUERY_USERS = gql`
+  query user(
+    $username: String
+  ){
+    user(
+      username: $username
+    ){
+      email
+      friends{
+        name
+      }
+      subscribe{
+        name
+      }
+      favourite
+    }
+  }
+`;

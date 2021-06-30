@@ -41,9 +41,9 @@ const Mutation = {
     }
   },
   async updateUser(parent, args, {db, pubsub}, info){
-    if(!args.userId) throw new Error("Missing userId for Update User");
+    if(!args.username) throw new Error("Missing username for Update User");
 
-    let user = await db.UserModel.findById(args.userId);
+    let user = await db.UserModel.findOne({name: args.username});
     if(!user) throw new Error("User did not exist");
 
     if(args.email) user.email = args.email;
@@ -54,7 +54,7 @@ const Mutation = {
       for(let i = 0; i < args.subscribe.length; i++) {
         let club = await db.ClubModel.findOne({ name: args.subscribe[i] })
         if(!user.subscribe.includes(club._id)){
-          user.subscribe.push(club);
+          user.subscribe.push(club._id);
         }
       }
     }
@@ -63,7 +63,7 @@ const Mutation = {
       for(let i = 0; i < args.friends.length; i++) {
         let friend = await db.UserModel.findOne({ name: args.friends[i] });
         if(!user.friends.includes(friend._id)) {
-          user.friends.push(friend);
+          user.friends.push(friend._id);
         }
       }
     }

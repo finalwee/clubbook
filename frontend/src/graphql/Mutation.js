@@ -93,14 +93,14 @@ mutation createUser(
 
 export const UPDATE_USER_MUTATION = gql`
 mutation updateUser(
-  $userId: ID!
+  $username: String!
   $email: String
   $friends: [String]
   $subscribe: [String]
   $favourite: String
 ){
   updateUser(
-    userId: $userId
+    username: $username
     email: $email
     friends: $friends
     subscribe: $subscribe

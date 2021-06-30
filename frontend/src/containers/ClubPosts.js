@@ -19,6 +19,7 @@ function ClubPosts({clubname,}){
     let comments = posts?.data?.posts?.map(post => {return post.comments});
     let postsCount = posts?.data?.posts?.length;
     let disableNextPage = nextPost?.data?.posts?.length===0 ? true : false ;
+    console.log(nextPost?.data?.posts)
     const [postClick, setPostClick] = useState('');
     const {postOriginal, setPostOriginal} = useFlag();
     const createPost = ({ Title, Author, Content }) => {

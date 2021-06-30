@@ -1,6 +1,6 @@
 type Query {
   messages(name1: String, name2: String): [Message!]
-  user(userId: ID): User
+  user(username: String): User
   posts(clubName: String, username: String, begin: Int, end: Int): [Post]
   comments(postId: ID): [Comment]
 }
@@ -8,7 +8,7 @@ type Query {
 type Mutation {
   createUser(name: String!, password: String!): String
   userLogin(name: String!, password: String!): Boolean
-  updateUser(userId: ID!, email: String, friends: [String], subscribe: [String], favourite: String): Boolean
+  updateUser(username: String!, email: String, friends: [String], subscribe: [String], favourite: String): Boolean
   createChatBox(name1: String, name2: String): ChatBox
   createMessage(sender: String, chatboxname: String, body: String): [Message!]
   createClub(name: String, author: String): Boolean
