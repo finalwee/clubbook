@@ -31,7 +31,7 @@ type Club {
   createTime: String
   posts: [Post]
   keywords: [String]
-} 
+}   
 
 type Post {
   _id : ID!
