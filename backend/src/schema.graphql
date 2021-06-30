@@ -34,6 +34,7 @@ type Club {
 }
 
 type Post {
+  _id: ID
   author: User!
   title: String!
   createTime: String
