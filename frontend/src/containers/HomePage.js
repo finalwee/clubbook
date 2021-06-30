@@ -46,8 +46,6 @@ function HomePage() {
     
     return(
         <div className={classes.homepage}>
-            {/* {clubSelected === '' ? <HomePagePosts/> : 
-                <ClubPosts clubname={clubSelected}/>} */}
             {MainView}
             <Header createChatBox={createChatBox} setClubSelected={setClubSelected}/>
             <div className={classes.chatroom}>
