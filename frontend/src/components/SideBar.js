@@ -102,7 +102,7 @@ StyledNavItem.defaultProps = NavItem.defaultProps;
 function SideBar({setClubSelected}){
 
     const [selected, setSelected] = useState("home");
-    const {setPostOriginal} = useFlag();
+    const {setPostOriginal, setShowWhich} = useFlag();
 
     return(
         <StyledSideNav
@@ -110,10 +110,15 @@ function SideBar({setClubSelected}){
                 if (eventKey.slice(0, 5) === 'club/'){
                     setClubSelected(eventKey.slice(5, eventKey.length))
                     setPostOriginal(false);
+                    setShowWhich('club');
                 }
                 else if (eventKey === 'home'){
                     setClubSelected('');
                     setPostOriginal(false);
+                    setShowWhich('club');
+                }
+                else if (eventKey === 'personal profile'){
+                    setShowWhich('personal profile');
                 }
             }}
         >

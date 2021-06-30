@@ -3,6 +3,7 @@ import ChatRoom from './ChatRoom';
 import Header from "./Header";
 import HomePagePosts from './HomePagePosts';
 import ClubPosts from './ClubPosts';
+import PersonalProfile from '../components/PersonalProfile';
 import useChatBox from '../hooks/useChatBox';
 import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from './ClubBook';
@@ -31,15 +32,23 @@ function HomePage() {
 
     const { chatBoxes, removeChatBox, createChatBox } = useChatBox();
     const [clubSelected, setClubSelected] = useState('');
-    const { showChatRoom } =useFlag();
+    const { showChatRoom, showWhich } =useFlag();
     const {me, displayStatus} = useCommonProps();
     let props = {visibility: (showChatRoom ? 'visible' : 'hidden')};
     const classes = useStyles(props);
+    let MainView = <></>;
+    if(showWhich === 'club'){
+        if (clubSelected === '')MainView = <HomePagePosts/>;
+        else MainView = <ClubPosts clubname={clubSelected}/>;
+    }else if(showWhich === 'personal profile'){
+        MainView = <PersonalProfile/>;
+    }
     
     return(
         <div className={classes.homepage}>
-            {clubSelected === '' ? <HomePagePosts/> : 
-                <ClubPosts clubname={clubSelected}/>}
+            {/* {clubSelected === '' ? <HomePagePosts/> : 
+                <ClubPosts clubname={clubSelected}/>} */}
+            {MainView}
             <Header createChatBox={createChatBox} setClubSelected={setClubSelected}/>
             <div className={classes.chatroom}>
                 <ChatRoom chatBoxes={chatBoxes} removeChatBox={removeChatBox}/>
