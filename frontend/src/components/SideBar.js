@@ -3,6 +3,9 @@ import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/rea
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import styled from 'styled-components';
 import { useFlag } from '../hooks/useFlag';
+import { useCommonProps } from "../containers/ClubBook";
+import {QUERY_USERS} from "../graphql/Query";
+import {useQuery} from '@apollo/react-hooks';
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
@@ -102,18 +105,27 @@ StyledNavItem.defaultProps = NavItem.defaultProps;
 function SideBar({setClubSelected}){
 
     const [selected, setSelected] = useState("home");
-    const {setPostOriginal} = useFlag();
-
+    const {setPostOriginal, setShowWhich} = useFlag();
+    const {me} = useCommonProps();
+    const userInfo = useQuery(QUERY_USERS, {variables: {username: me}});
+    let clubs = userInfo?.data?.user?.subscribe?.map(club => {return club.name});
+    clubs = clubs===undefined ? [] : clubs;
+    
     return(
         <StyledSideNav
             onSelect={(eventKey)=>{
                 if (eventKey.slice(0, 5) === 'club/'){
                     setClubSelected(eventKey.slice(5, eventKey.length))
                     setPostOriginal(false);
+                    setShowWhich('club');
                 }
                 else if (eventKey === 'home'){
                     setClubSelected('');
                     setPostOriginal(false);
+                    setShowWhich('club');
+                }
+                else if (eventKey === 'personal profile'){
+                    setShowWhich('personal profile');
                 }
             }}
         >
@@ -142,17 +154,14 @@ function SideBar({setClubSelected}){
                     <NavText style={{ paddingRight: 32 }} title="CLUB">
                         CLUB
                     </NavText>
-                    {/*下方要放的是每個人的clubs */}
-                    <StyledNavItem eventKey="club/Tennis"> 
-                        <NavText title="Tennis">
-                            Tennis
-                        </NavText>
-                    </StyledNavItem>
-                    <StyledNavItem eventKey="club/Badminton">
-                        <NavText title="Badminton">
-                            Badminton
-                        </NavText>
-                    </StyledNavItem>
+                    {clubs.map(clubname => {
+                        return(
+                            <StyledNavItem eventKey={"club/"+clubname}> 
+                                <NavText title={clubname}>
+                                    {clubname}
+                                </NavText>
+                            </StyledNavItem>
+                    )})}
                 </StyledNavItem>
                 <StyledNavItem eventKey="activity">
                     <NavIcon>

@@ -33,7 +33,8 @@ export const QUERY_POSTS = gql`
       author{
         name
       } 
-      createtime
+      title
+      clubName
       body
       comments{
         commenter{
@@ -42,6 +43,25 @@ export const QUERY_POSTS = gql`
         createTime
         body
       }
+    }
+  }
+`;
+
+export const QUERY_USERS = gql`
+  query user(
+    $username: String
+  ){
+    user(
+      username: $username
+    ){
+      email
+      friends{
+        name
+      }
+      subscribe{
+        name
+      }
+      favourite
     }
   }
 `;

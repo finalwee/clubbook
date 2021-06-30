@@ -12,17 +12,16 @@ import { useCommonProps } from "../containers/ClubBook";
 function HomePagePosts(){
 
     const {me} = useCommonProps();
-    const {data} = useQuery(QUERY_POSTS, {variables: {username: me, begin: 1, end: 6}});
-    let title = data?.posts?.map(post => {return post.createtime});
-    let author = data?.posts?.map(post => {return post.author.name});
-    let content = data?.posts?.map(post => {return post.body});
-    let comments = data?.posts?.map(post => {return post.comments});
-    let postsCount = data?.posts?.length;
-    const [clubname, setClubName] = useState(['文學社', '羽球社', '桌球社', '網服社', '口琴社', '鋼琴社']);
-    // const [title, setTitle] = useState(["唐詩分享", '打羽球', '打桌球', '寫web', '吹口琴', '彈鋼琴']);
-    // const [author, setAuthor] = useState(["Rick Huang", 'Listen', 'Ivone', 'David 周', 'Andy', 'Clover']);
-    // const [content, setContent] = useState(["床前明月光，疑是地上霜，舉頭望明月，低頭思故鄉", "我很會打羽球", '我很會打桌球', 'web好難', '爽爽吹口琴', '我強!']);
-    // const [comments, setComments] = useState([[{ author: "Eric", comment_time: '2021-06-26T19:24:00', content: "一首好詩" }], [], [], [], [], []])
+    const [page, setPage] = useState(0);
+    const posts = useQuery(QUERY_POSTS, {variables: {username: me, begin: 1+6*page, end: 6*(page+1)}});
+    const nextPost = useQuery(QUERY_POSTS, {variables: {username: me, begin: 6*(page+1)+1, end: 6*(page+1)+1}});
+    let title = posts?.data?.posts?.map(post => {return post.title});
+    let author = posts?.data?.posts?.map(post => {return post.author.name});
+    let content = posts?.data?.posts?.map(post => {return post.body});
+    let comments = posts?.data?.posts?.map(post => {return post.comments});
+    let clubname = posts?.data?.posts?.map(post => {return post.clubName});
+    let postsCount = posts?.data?.posts?.length;
+    let disableNextPage = nextPost?.data?.posts?.length===0 ? true : false ;
     const [postClick, setPostClick] = useState('');
     const {postOriginal, setPostOriginal} = useFlag();
 
@@ -79,12 +78,12 @@ function HomePagePosts(){
             {(postClick === '' || !postOriginal) ?
             <>
             <div style={{position: 'absolute', left: 1470, bottom: -340}}>
-                <IconButton>
+                <IconButton disabled={disableNextPage} onClick={()=>setPage(page => {return page+1;})}>
                     <NavigateNextIcon/>
                 </IconButton>
             </div>
             <div style={{position: 'absolute', left: 50, bottom: -340}}>
-                <IconButton>
+                <IconButton disabled={page == 0 ? true : false} onClick={()=>setPage(page => {return page-1;})}>
                     <NavigateBeforeIcon/>
                 </IconButton>
             </div> </> : <></>}

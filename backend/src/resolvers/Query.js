@@ -8,10 +8,10 @@ const Query = {
     let chatbox = await db.ChatBoxModel.find({name: ChatBoxName});
     return Promise.all(chatbox[0].messages.map(id => db.MessageModel.findById(id)),);
   },
-  async user(parent, {userId}, {db}, info){
-    if( !userId ) throw new Error("Missing userId for Query user");
+  async user(parent, {username}, {db}, info){
+    if( !username ) throw new Error("Missing userId for Query user");
 
-    return await db.UserModel.findById(userId);
+    return await db.UserModel.findOne(({name: username}));
   },
   async posts(parent, { clubName, username, begin, end}, {db}, info){
     if(clubName && username) throw new Error("Choose only clubname or username");
@@ -37,9 +37,8 @@ const Query = {
 
     post = post.sort((a, b) => b.createTime - a.createTime);
 
-    console.log(post.length);
-    if(begin > post.length){console.log("hi");return [];}
-    else if(end >= post.length){console.log("op");return post.slice(begin-1, 5);}
+    if(begin > post.length){return [];}
+    else if(end >= post.length){return post.slice(begin-1, post.length);}
     else return post.slice(begin-1, end);
   },
   async comments(parent, {postId}, {db}, info) {

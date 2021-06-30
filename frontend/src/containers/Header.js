@@ -109,12 +109,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Header({createChatBox, setClubSelected}) {
 
+    const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
     const [clubs, setClubs] = useState([]);
     const [searchClub] = useMutation(SEARCH_CLUB_MUTATION);
     const [searchFriends] = useMutation(SEARCH_FRIENDS_MUTATION);
     const [friends, setFriends] = useState([]);
-    const {setPostOriginal, setShowChatRoom} = useFlag();
+    const {setPostOriginal, setShowChatRoom, setShowWhich} = useFlag();
     const {me, displayStatus} = useCommonProps();
     const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
     const classes = useStyles(props);
@@ -149,7 +150,9 @@ function Header({createChatBox, setClubSelected}) {
                 </div>
                 <InputBase
                 placeholder="Search Club"
+                value={clubsearch}
                 onChange={async evt => {
+                        setClubSearch(evt.target.value);
                         let clubsSearched = await searchClub({
                             variables: {
                             keyword: evt.target.value,
@@ -164,6 +167,10 @@ function Header({createChatBox, setClubSelected}) {
                         setClubs(clubs);
                     }
                 }
+                onBlur={()=>{
+                    // setClubSearch('');
+                    // setClubs([]);
+                }}
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -180,7 +187,9 @@ function Header({createChatBox, setClubSelected}) {
                 </div>
                 <InputBase
                 placeholder="Search Friend"
+                value={friendsearch}
                 onChange={async evt => {
+                    setFriendSearch(evt.target.value);
                     let friendsSearched = await searchFriends({
                         variables: {
                         keyword: evt.target.value,
@@ -193,8 +202,12 @@ function Header({createChatBox, setClubSelected}) {
                         })
                     }
                     setFriends(friends);
+                    }
                 }
-            }
+                onBlur={()=>{
+                    // setFriendSearch('');
+                    // setFriends([]);
+                }}
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -213,7 +226,7 @@ function Header({createChatBox, setClubSelected}) {
                             <ListItem
                                 button
                                 key={item}
-                                onClick={() => {setClubSelected(item);setClubs([]);setPostOriginal(false);}}
+                                onClick={() => {setClubSelected(item);setClubs([]);setPostOriginal(false);setShowWhich('club');}}
                             >
                                 <ListItemText primary={item} />
                             </ListItem>
@@ -241,7 +254,8 @@ function Header({createChatBox, setClubSelected}) {
         </div> 
         <Button variant="outlined" 
             style={{position: 'absolute', paddingLeft: 5, paddingRight: 5, paddingTop: 0, paddingBottom:0, 
-                    backgroundColor: '#FFF', borderRadius: 30,  width: 'auto', left: 1410, top: 20, textTransform: 'none'}}>
+                    backgroundColor: '#FFF', borderRadius: 30,  width: 'auto', left: 1410, top: 20, textTransform: 'none'}}
+                    onClick={()=>setShowWhich('personal profile')}>
             {calname(me)}
         </Button>
     </>
