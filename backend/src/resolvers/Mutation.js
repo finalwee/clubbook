@@ -188,7 +188,7 @@ const Mutation = {
   async createComment(parent, { commenter, body, postId }, { db, pubsub }, info){
     if(!commenter || !body || !postId) throw new Error("Missing input for create post");
     let user = await db.UserModel.findOne({ name: commenter });
-    
+    console.log(user)
     if(!user) {
       throw new Error("Commenter do not exist");
     }
@@ -211,10 +211,8 @@ const Mutation = {
       let find = await db.CommentModel.findById(post.comments[i]);
       let commenter = await db.UserModel.findById(find.commenter);
 
-      subscripComment.push({commenter: commenter, body: find.body, createTime: find.createtime});
+      subscripComment.push({commenter: commenter, body: find.body, createTime: find.createTime});
     }
-
-    console.log(subscripComment)
 
     pubsub.publish(`Post ${post._id}`, {
       Post: {
