@@ -30,6 +30,7 @@ export const QUERY_POSTS = gql`
       begin: $begin
       end: $end
     ){
+      _id
       author{
         name
       } 

@@ -1,22 +1,25 @@
 import React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Button  from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Paper  from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
-import ListItem  from '@material-ui/core/ListItem';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import SideBar from '../components/SideBar';
 import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from './ClubBook';
-import {useMutation} from '@apollo/react-hooks';
-import {SEARCH_CLUB_MUTATION} from "../graphql/Mutation";
-import {SEARCH_FRIENDS_MUTATION} from "../graphql/Mutation";
+import { useMutation } from '@apollo/react-hooks';
+import { SEARCH_CLUB_MUTATION } from "../graphql/Mutation";
+import { SEARCH_FRIENDS_MUTATION } from "../graphql/Mutation";
+import { UPDATE_USER_MUTATION, CREATE_CLUB_MUTATION } from "../graphql/Mutation";
+import { Icon } from '@material-ui/core';
+import CreateIcon from '@material-ui/icons/Create';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
         [theme.breakpoints.up('sm')]: {
-        display: 'block',
-        position: 'absolute',
-        left: 700,
+            display: 'block',
+            position: 'absolute',
+            left: 700,
         },
     },
     searchclub: {
@@ -35,12 +38,12 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         width: 233,
         left: 140,
         [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
+            marginLeft: theme.spacing(1),
         },
     },
     searchfriend: {
@@ -48,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
         '&:hover': {
-        backgroundColor: fade(theme.palette.common.white, 0.25),
+            backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         width: 233,
         left: 1155,
         [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
+            marginLeft: theme.spacing(1),
         },
     },
     searchIcon: {
@@ -74,23 +77,23 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-        width: '12ch',
-        '&:focus': {
-            width: '20ch',
-        },
+            width: '12ch',
+            '&:focus': {
+                width: '20ch',
+            },
         },
     },
-    clubsearchpaper: props =>({
+    clubsearchpaper: props => ({
         position: 'absolute',
         width: 233,
         left: 148,
-        bottom: props.clubcount<=23 ? -211-props.clubcount : -211-23,
+        bottom: props.clubcount <= 23 ? -211 - props.clubcount : -211 - 23,
     }),
     friendsearchpaper: props => ({
         position: 'absolute',
         width: 233,
         left: 1163,
-        bottom: props.friendcount<=67 ? -215-props.friendcount : -215-67,
+        bottom: props.friendcount <= 67 ? -215 - props.friendcount : -215 - 67,
     }),
     clublist: {
         maxWidth: 360,
@@ -107,17 +110,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Header({createChatBox, setClubSelected}) {
+function Header({ createChatBox, setClubSelected }) {
 
     const [clubsearch, setClubSearch] = useState('');
     const [friendsearch, setFriendSearch] = useState('');
     const [clubs, setClubs] = useState([]);
     const [searchClub] = useMutation(SEARCH_CLUB_MUTATION);
     const [searchFriends] = useMutation(SEARCH_FRIENDS_MUTATION);
+    const [createClub] = useMutation(CREATE_CLUB_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const [friends, setFriends] = useState([]);
-    const {setPostOriginal, setShowChatRoom, setShowWhich} = useFlag();
-    const {me, displayStatus} = useCommonProps();
-    const props = {clubcount: (4*clubs.length-18)*11+1 ,friendcount: (4*friends.length-18)*11+1};
+    const { setPostOriginal, setShowChatRoom, setShowWhich } = useFlag();
+    const { me, displayStatus } = useCommonProps();
+    const props = { clubcount: (clubs.length === 0) ? -153 : (4 * clubs.length - 18) * 11 + 1, friendcount: (4 * friends.length - 18) * 11 + 1 };
     const classes = useStyles(props);
 
     const calname = (me) => {
@@ -125,140 +130,176 @@ function Header({createChatBox, setClubSelected}) {
         let name = '';
         let length = 0;
         let append = false;
-        for(let i=0;i<me.length;i++){
-            if(me[i].match(/^[0-9a-z]+$/) !== null){
-                if((length+1) > 10){append = true; break;}
-                else {name+=me[i];length+=1;}
-            }else{
-                if((length+2) > 10){append = true; break;}
-                else {name+=me[i];length+=2;}
+        for (let i = 0; i < me.length; i++) {
+            if (me[i].match(/^[0-9a-z]+$/) !== null) {
+                if ((length + 1) > 10) { append = true; break; }
+                else { name += me[i]; length += 1; }
+            } else {
+                if ((length + 2) > 10) { append = true; break; }
+                else { name += me[i]; length += 2; }
             }
         }
-        if(append)return (name+'...');
+        if (append) return (name + '...');
         return name;
     }
 
+    const createclub = useCallback(async ({ name, author }) => {
+        const success = await createClub({
+            variables: {
+                name: name,
+                author: author
+            },
+        });
+        await updateUser({
+            variables: {
+                username: author,
+                subscribe: name
+            },
+        });
+        console.log(success);
+    }, [createClub, updateUser]
+    )
+
     return (
         <>
-        <div className={classes.root}>
-        <AppBar position="static">
-            <Toolbar>
-            <SideBar setClubSelected={setClubSelected}/>
-            <div className={classes.searchclub}>
-                <div className={classes.searchIcon}>
-                <SearchIcon />
-                </div>
-                <InputBase
-                placeholder="Search Club"
-                value={clubsearch}
-                onChange={async evt => {
-                        setClubSearch(evt.target.value);
-                        let clubsSearched = await searchClub({
-                            variables: {
-                            keyword: evt.target.value,
-                            },
-                        });
-                        let clubs=[];
-                        if(clubsSearched.data.searchClub!==null){
-                            clubs = clubsSearched.data.searchClub.map(club=>{
-                                return club.name;   
-                            })
-                        }
-                        setClubs(clubs);
-                    }
-                }
-                onBlur={()=>{
-                    // setClubSearch('');
-                    // setClubs([]);
-                }}
-                classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-                />
+            <div className={classes.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <SideBar setClubSelected={setClubSelected} />
+                        <div className={classes.searchclub}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search Club"
+                                value={clubsearch}
+                                onChange={async evt => {
+                                    setClubSearch(evt.target.value);
+                                    let clubsSearched = await searchClub({
+                                        variables: {
+                                            keyword: evt.target.value,
+                                        },
+                                    });
+                                    let clubs = [];
+                                    if (clubsSearched.data.searchClub !== null) {
+                                        clubs = clubsSearched.data.searchClub.map(club => {
+                                            return club.name;
+                                        })
+                                    }
+                                    setClubs(clubs);
+                                }
+                                }
+                                onBlur={() => {
+                                    // setClubSearch('');
+                                    // setClubs([]);
+                                }}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                        <Typography className={classes.title} variant="h6" noWrap>
+                            &#x2663; Club Book &#x1F4DA;
+                        </Typography>
+                        <div className={classes.searchfriend}>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                placeholder="Search Friend"
+                                value={friendsearch}
+                                onChange={async evt => {
+                                    setFriendSearch(evt.target.value);
+                                    let friendsSearched = await searchFriends({
+                                        variables: {
+                                            keyword: evt.target.value,
+                                        },
+                                    });
+                                    let friends = [];
+                                    if (friendsSearched.data.searchFriends !== null) {
+                                        friends = friendsSearched.data.searchFriends.map(friend => {
+                                            return friend.name;
+                                        })
+                                    }
+                                    setFriends(friends);
+                                }
+                                }
+                                onBlur={() => {
+                                    // setFriendSearch('');
+                                    // setFriends([]);
+                                }}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </div>
+                    </Toolbar>
+                </AppBar>
             </div>
-            <Typography className={classes.title} variant="h6" noWrap>
-                &#x2663; Club Book &#x1F4DA;
-            </Typography>
-            <div className={classes.searchfriend}>
-                <div className={classes.searchIcon}>
-                <SearchIcon />
-                </div>
-                <InputBase
-                placeholder="Search Friend"
-                value={friendsearch}
-                onChange={async evt => {
-                    setFriendSearch(evt.target.value);
-                    let friendsSearched = await searchFriends({
-                        variables: {
-                        keyword: evt.target.value,
-                        },
-                    });
-                    let friends=[];
-                    if(friendsSearched.data.searchFriends!==null){
-                        friends = friendsSearched.data.searchFriends.map(friend=>{
-                            return friend.name;   
-                        })
+            <div className={classes.clubsearchpaper}>
+                <Paper>
+                    {
+                        clubs.length === 0 ?
+                            clubsearch === '' ?
+                                <></> :
+                                <List className={classes.clublist}>
+                                    <ListItem
+                                        button
+                                        onClick={() => { createclub({ name: clubsearch, author: me }); setClubSelected(clubsearch); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
+                                    >
+                                        <CreateIcon style={{ marginRight: "0.5em" }} />
+                                        <ListItemText primary={"Create " + clubsearch} />
+                                    </ListItem>
+                                </List>
+                            :
+                            <List className={classes.clublist}>
+                                {clubs.map(item => {
+                                    return (
+                                        <ListItem
+                                            button
+                                            key={item}
+                                            onClick={() => { setClubSelected(item); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
+                                        >
+                                            <ListItemText primary={item} />
+                                        </ListItem>
+                                    )
+                                })}
+                            </List>
                     }
-                    setFriends(friends);
-                    }
-                }
-                onBlur={()=>{
-                    // setFriendSearch('');
-                    // setFriends([]);
-                }}
-                classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-                />
+                </Paper>
             </div>
-            </Toolbar>
-        </AppBar>
-        </div>
-        <div className={classes.clubsearchpaper}>
-            <Paper>
-                {clubs.length===0 ? <></> :
-                    <List className={classes.clublist}>
-                        {clubs.map(item => {return(
-                            <ListItem
-                                button
-                                key={item}
-                                onClick={() => {setClubSelected(item);setClubs([]);setPostOriginal(false);setShowWhich('club');}}
-                            >
-                                <ListItemText primary={item} />
-                            </ListItem>
-                        )})}
-                    </List>
-                }   
-            </Paper>
-        </div>
-        <div className={classes.friendsearchpaper}>
-            <Paper>
-                {friends.length===0 ? <></> :
-                    <List className={classes.friendlist}>
-                        {friends.map(item => {return(
-                            <ListItem
-                                button
-                                key={item}
-                                onClick={() => {setFriends([]);setShowChatRoom(true);createChatBox(item, me, displayStatus)}}
-                            >
-                                <ListItemText primary={item} />
-                            </ListItem>
-                        )})}
-                    </List>
-                }   
-            </Paper>
-        </div> 
-        <Button variant="outlined" 
-            style={{position: 'absolute', paddingLeft: 5, paddingRight: 5, paddingTop: 0, paddingBottom:0, 
-                    backgroundColor: '#FFF', borderRadius: 30,  width: 'auto', left: 1410, top: 20, textTransform: 'none'}}
-                    onClick={()=>setShowWhich('personal profile')}>
-            {calname(me)}
-        </Button>
-    </>
+            <div className={classes.friendsearchpaper}>
+                <Paper>
+                    {friends.length === 0 ? <></> :
+                        <List className={classes.friendlist}>
+                            {friends.map(item => {
+                                return (
+                                    <ListItem
+                                        button
+                                        key={item}
+                                        onClick={() => { setFriends([]); setShowChatRoom(true); createChatBox(item, me, displayStatus) }}
+                                    >
+                                        <ListItemText primary={item} />
+                                    </ListItem>
+                                )
+                            })}
+                        </List>
+                    }
+                </Paper>
+            </div>
+            <Button variant="outlined"
+                style={{
+                    position: 'absolute', paddingLeft: 5, paddingRight: 5, paddingTop: 0, paddingBottom: 0,
+                    backgroundColor: '#FFF', borderRadius: 30, width: 'auto', left: 1410, top: 20, textTransform: 'none'
+                }}
+                onClick={() => setShowWhich('personal profile')}>
+                {calname(me)}
+            </Button>
+        </>
     );
 }
 

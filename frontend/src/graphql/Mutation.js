@@ -108,3 +108,57 @@ mutation updateUser(
   )
 }
 `;
+
+export const CREATE_POST_MUTATION = gql`
+mutation createPost(
+  $author: String
+  $title: String
+  $body: String
+  $clubName: String
+){
+  createPost(
+    author: $author
+    title: $title
+    body: $body
+    clubName: $clubName
+  )
+}
+`;
+
+export const JOINED_CLUB_MUTATION = gql`
+mutation joinedClub(
+  $userName: String!
+  $clubName: String!
+){
+  joinedClub(
+    userName: $userName
+    clubName: $clubName
+  )
+}
+`;
+
+export const CREATE_COMMENT_MUTATION = gql`
+mutation createComment(
+  $body: String
+  $commenter: String
+  $postId: ID
+){
+  createComment(
+    body: $body
+    commenter: $commenter
+    postId: $postId
+  )
+}
+`;
+
+export const CREATE_CLUB_MUTATION = gql`
+mutation createClub(
+  $name: String
+  $author: String
+){
+  createClub(
+    name: $name
+    author: $author
+  )
+}
+`;

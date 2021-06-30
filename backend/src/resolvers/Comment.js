@@ -1,6 +1,6 @@
 const Comment = {
-  async commenter(parent, args, {db}, info){
-      return await db.CommentModel.findById(parent.commenter);       
+  async commenter(parent, args, { db }, info) {
+    return await db.UserModel.findById(parent.commenter);
   },
 };
 
