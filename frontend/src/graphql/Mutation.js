@@ -95,8 +95,8 @@ export const UPDATE_USER_MUTATION = gql`
 mutation updateUser(
   $userId: ID!
   $email: String
-  $friends: [ID]
-  $subscribe: [ID]
+  $friends: [String]
+  $subscribe: [String]
   $favourite: String
 ){
   updateUser(

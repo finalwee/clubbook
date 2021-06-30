@@ -168,8 +168,8 @@ function Header({createChatBox, setClubSelected}) {
                     }
                 }
                 onBlur={()=>{
-                    setClubSearch('');
-                    setClubs([]);
+                    // setClubSearch('');
+                    // setClubs([]);
                 }}
                 classes={{
                     root: classes.inputRoot,
@@ -205,8 +205,8 @@ function Header({createChatBox, setClubSelected}) {
                     }
                 }
                 onBlur={()=>{
-                    setFriendSearch('');
-                    setFriends([]);
+                    // setFriendSearch('');
+                    // setFriends([]);
                 }}
                 classes={{
                     root: classes.inputRoot,
