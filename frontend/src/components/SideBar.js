@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from "../containers/ClubBook";
 import { QUERY_USERS } from "../graphql/Query";
 import { useQuery } from '@apollo/react-hooks';
+import { USER_SUBSCRIPTION } from "../graphql/Subscription";
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
@@ -108,8 +109,23 @@ function SideBar({ setClubSelected }) {
     const { setPostOriginal, setShowWhich } = useFlag();
     const { me } = useCommonProps();
     const userInfo = useQuery(QUERY_USERS, { variables: { username: me } });
+    let subscribeToMore = userInfo?.subscribeToMore;
     let clubs = userInfo?.data?.user?.subscribe?.map(club => { return club.name });
     clubs = clubs === undefined ? [] : clubs;
+
+    useEffect(() => {
+        subscribeToMore({
+            document: USER_SUBSCRIPTION,
+            updateQuery: (prev, {subscriptionData}) => {
+                if(!subscriptionData.data) return prev;
+                const newSubscribe = subscriptionData.data.User.data;
+                
+                if (prev !== undefined) {
+                    return({user: {...prev.user, subscribe: [...prev.user.subscribe, {name: newSubscribe}]}});
+                }
+            }
+        })
+    }, [subscribeToMore]);
 
     return (
         <StyledSideNav

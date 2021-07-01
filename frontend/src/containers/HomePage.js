@@ -39,7 +39,7 @@ function HomePage() {
     let MainView = <></>;
     if(showWhich === 'club'){
         if (clubSelected === '')MainView = <HomePagePosts/>;
-        else MainView = <ClubPosts clubname={clubSelected}/>;
+        else MainView = <ClubPosts clubname={clubSelected} setClubSelected={setClubSelected}/>;
     }else if(showWhich === 'personal profile'){
         MainView = <PersonalProfile/>;
     }

@@ -57,6 +57,14 @@ const Mutation = {
           user.subscribe.push(club._id);
         }
       }
+
+      pubsub.publish(`Update User`, {
+        User: {
+          mutation: 'UPDATED',
+          data: args.subscribe[0],
+        },
+      });
+      console.log(args.subscribe[0]);
     }
 
     if (args.friends) {
@@ -69,6 +77,7 @@ const Mutation = {
     }
 
     await user.save();
+
 
     return true;
   },
@@ -220,7 +229,6 @@ const Mutation = {
 
       subscripComment.push({ commenter: commenter, body: find.body, createTime: find.createTime });
     }
-    console.log(subscripComment);
 
     pubsub.publish(`Post ${post._id}`, {
       Post: {

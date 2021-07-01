@@ -43,8 +43,6 @@ function HomePagePosts() {
                 const newPost = subscriptionData.data.ClubInHomePage.data;
                 newPost.comments = [];
 
-                console.log(subscriptionData);
-                console.log([...prev.posts, ...newPost]);
                 if (prev !== undefined) {
                     return({posts: [...prev.posts, ...newPost]})
                 }

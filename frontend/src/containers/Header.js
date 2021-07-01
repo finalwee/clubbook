@@ -156,7 +156,6 @@ function Header({ createChatBox, setClubSelected }) {
                 subscribe: name
             },
         });
-        console.log(success);
     }, [createClub, updateUser]
     )
 
@@ -249,7 +248,7 @@ function Header({ createChatBox, setClubSelected }) {
                                 <List className={classes.clublist}>
                                     <ListItem
                                         button
-                                        onClick={() => { createclub({ name: clubsearch, author: me }); setClubSelected(clubsearch); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
+                                        onClick={() => { createclub({ name: clubsearch, author: me }); setClubSelected(()=> {return clubsearch}); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
                                     >
                                         <CreateIcon style={{ marginRight: "0.5em" }} />
                                         <ListItemText primary={"Create " + clubsearch} />
@@ -262,7 +261,7 @@ function Header({ createChatBox, setClubSelected }) {
                                         <ListItem
                                             button
                                             key={item}
-                                            onClick={() => { setClubSelected(item); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
+                                            onClick={() => { setClubSelected(()=>{return item}); setClubs([]); setPostOriginal(false); setShowWhich('club'); setClubSearch(''); }}
                                         >
                                             <ListItemText primary={item} />
                                         </ListItem>

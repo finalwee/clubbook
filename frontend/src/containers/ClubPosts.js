@@ -11,7 +11,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { CREATE_POST_MUTATION } from "../graphql/Mutation";
 import {POSTS_SUBSCRIPTION} from "../graphql/Subscription";
 
-function ClubPosts({ clubname, }) {
+function ClubPosts({ clubname, setClubSelected}) {
 
     const [page, setPage] = useState(0);
     let posts = useQuery(QUERY_POSTS, { variables: { clubName: clubname } });
@@ -75,7 +75,7 @@ function ClubPosts({ clubname, }) {
 
             {(postClick === '' || !postOriginal) ?
                 <div style={{ position: 'absolute', left: 560, bottom: -200, width: 450, height: 200 }}>
-                    <ClubHeader clubname={clubname} createPost={createPost} />
+                    <ClubHeader clubname={clubname} createPost={createPost} setClubSelected={setClubSelected}/>
                 </div> : <></>}
 
             {((postClick === '' || !postOriginal) && postsCount >= 2) ?

@@ -78,3 +78,12 @@ subscription Post(
     }
 }
 `;
+
+export const USER_SUBSCRIPTION = gql`
+subscription
+{
+  User{
+    data
+  }
+}
+`;

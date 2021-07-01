@@ -24,6 +24,7 @@ type Subscription {
   Club(clubname: String): ClubSubscriptionPayload!
   ClubInHomePage: ClubSubscriptionPayload!
   Post(postId: ID): PostSubscriptionPayload!
+  User: UserSubscriptionPayload!
 }
 
 type Club {
@@ -88,6 +89,12 @@ type PostSubscriptionPayload {
   data: [Comment!]
 }
 
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  data: String
+}
+
 input UserInput {
   id: ID
 }
+

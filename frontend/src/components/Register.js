@@ -181,7 +181,6 @@ function Register({setEnter}) {
           setError(error => {return {...error, password_origin: true}});
           setHelperText(helperText => {return {...helperText, password_origin: 'Invalid password!'}});
         }
-        console.log(e.message);
       }
     }
     
