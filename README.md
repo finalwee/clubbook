@@ -33,15 +33,16 @@ B06901126 陳志偉: backend & deployment
 ## work for every teammate
 B06901168 黃其澤
 - frontend design :\
-	post, clubheader, personal profile, create post modal
+	post, clubHeader, PersonalProfile, CreatePostModal
 - graphql connect to backend :\
 	Mutation: create club, create post, create comment, join club
 
 B06901088 施淳仁
 - frontend design :\
 	clubbook, clubposts, header, homepage, homepageposts, register, sidebar, signin
-	chatroom, chatbox (the extension of hw8)
-- graphql connect to backend :
+	chatroom (the extension of hw8), chatbox (the extension of hw8)
+- graphql connect to backend :\
+	Mutation: CREATE_CHATBOX_MUTATION, CREATE_MESSAGE_MUTATION, SEARCH_CLUB_MUTATION, SEARCH_FRIENDS_MUTATION, USER_LOGIN_MUTATION, CREATE_USER_MUTATION, UPDATE_USER_MUTATION
 	
 B06901126 陳志偉
 - backend: \
