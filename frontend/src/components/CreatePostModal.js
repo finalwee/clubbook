@@ -15,7 +15,6 @@ const CreatePostModal = ({ visible, onCreate,
             onOk={() => {
                 form.validateFields().then((values) => {
                     form.resetFields();
-                    console.log(values);
                     onCreate(values);
                 }).catch((e) => { if(e.values.name === undefined)displayStatus({
                     type: "error",

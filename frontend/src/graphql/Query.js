@@ -66,3 +66,19 @@ export const QUERY_USERS = gql`
     }
   }
 `;
+
+export const QUERY_COMMENTS = gql`
+query comments(
+  $postId: ID
+){
+  comments(
+    postId: $postId
+  ){
+    commenter{
+      name
+    }
+    createTime
+    body
+  }
+}
+`;

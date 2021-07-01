@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import styled from 'styled-components';
 import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from "../containers/ClubBook";
-import {QUERY_USERS} from "../graphql/Query";
-import {useQuery} from '@apollo/react-hooks';
+import { QUERY_USERS } from "../graphql/Query";
+import { useQuery } from '@apollo/react-hooks';
+import { USER_SUBSCRIPTION } from "../graphql/Subscription";
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
@@ -102,29 +103,44 @@ const StyledNavItem = styled(NavItem)`
 `;
 StyledNavItem.defaultProps = NavItem.defaultProps;
 
-function SideBar({setClubSelected}){
+function SideBar({ setClubSelected }) {
 
     const [selected, setSelected] = useState("home");
-    const {setPostOriginal, setShowWhich} = useFlag();
-    const {me} = useCommonProps();
-    const userInfo = useQuery(QUERY_USERS, {variables: {username: me}});
-    let clubs = userInfo?.data?.user?.subscribe?.map(club => {return club.name});
-    clubs = clubs===undefined ? [] : clubs;
-    
-    return(
+    const { setPostOriginal, setShowWhich } = useFlag();
+    const { me } = useCommonProps();
+    const userInfo = useQuery(QUERY_USERS, { variables: { username: me } });
+    let subscribeToMore = userInfo?.subscribeToMore;
+    let clubs = userInfo?.data?.user?.subscribe?.map(club => { return club.name });
+    clubs = clubs === undefined ? [] : clubs;
+
+    useEffect(() => {
+        subscribeToMore({
+            document: USER_SUBSCRIPTION,
+            updateQuery: (prev, {subscriptionData}) => {
+                if(!subscriptionData.data) return prev;
+                const newSubscribe = subscriptionData.data.User.data;
+                
+                if (prev !== undefined) {
+                    return({user: {...prev.user, subscribe: [...prev.user.subscribe, {name: newSubscribe}]}});
+                }
+            }
+        })
+    }, [subscribeToMore]);
+
+    return (
         <StyledSideNav
-            onSelect={(eventKey)=>{
-                if (eventKey.slice(0, 5) === 'club/'){
+            onSelect={(eventKey) => {
+                if (eventKey.slice(0, 5) === 'club/') {
                     setClubSelected(eventKey.slice(5, eventKey.length))
                     setPostOriginal(false);
                     setShowWhich('club');
                 }
-                else if (eventKey === 'home'){
+                else if (eventKey === 'home') {
                     setClubSelected('');
                     setPostOriginal(false);
                     setShowWhich('club');
                 }
-                else if (eventKey === 'personal profile'){
+                else if (eventKey === 'personal profile') {
                     setShowWhich('personal profile');
                 }
             }}
@@ -155,30 +171,15 @@ function SideBar({setClubSelected}){
                         CLUB
                     </NavText>
                     {clubs.map(clubname => {
-                        return(
-                            <StyledNavItem eventKey={"club/"+clubname}> 
+                        return (
+                            <StyledNavItem eventKey={"club/" + clubname}>
                                 <NavText title={clubname}>
                                     {clubname}
                                 </NavText>
                             </StyledNavItem>
-                    )})}
+                        )
+                    })}
                 </StyledNavItem>
-                <StyledNavItem eventKey="activity">
-                    <NavIcon>
-                        <div>&#x2714;</div>
-                    </NavIcon>
-                    <NavText style={{ paddingRight: 32 }} title="ACTIVITY">
-                        ACTIVITY
-                    </NavText>
-                </StyledNavItem>
-                <NavItem eventKey="logout">
-                    <NavIcon>
-                        <div></div>
-                    </NavIcon>
-                    <NavText style={{ paddingRight: 32 }} title="LOG OUT">
-                        LOG OUT
-                    </NavText>
-                </NavItem>
             </StyledNav>
         </StyledSideNav>
     );

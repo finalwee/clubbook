@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import {
     Avatar,
     Button,
@@ -16,13 +16,17 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useFlag } from "../hooks/useFlag";
 import { useCommonProps } from "../containers/ClubBook";
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { CREATE_COMMENT_MUTATION } from "../graphql/Mutation";
+import { QUERY_COMMENTS } from "../graphql/Query";
+import { COMMENTS_SUBSCRIPTION } from "../graphql/Subscription";
 
 
-function Post({ clubname, title, author, content, comments, id }) {
+function Post({ clubname, title, author, content,  id }) {
 
-    const [commentsadded, setCommentAdded] = useState(comments);
+    let comments = useQuery(QUERY_COMMENTS, { variables: {postId: id}});
+    let subscribeToMore = comments?.subscribeToMore;
+    comments = comments?.data === undefined ? [] : comments?.data?.comments;
     const [messageInput, setMessageInput] = useState("");
     const [expanded, setExpanded] = useState(false);
     const [moodexpanded_primary, setMoodexpanded_primary] = useState(false);
@@ -31,7 +35,6 @@ function Post({ clubname, title, author, content, comments, id }) {
     const { postOriginal } = useFlag();
     const { me, displayStatus } = useCommonProps();
     const [createPostComment] = useMutation(CREATE_COMMENT_MUTATION);
-    console.log(id);
     const createComment = useCallback(async ({ body, commenter, postId }) => {
         const success = await createPostComment({
             variables: {
@@ -40,9 +43,23 @@ function Post({ clubname, title, author, content, comments, id }) {
                 postId: postId
             },
         });
-        console.log(success);
     }, [createPostComment]
     )
+
+    useEffect(() => {
+        subscribeToMore({
+            document: COMMENTS_SUBSCRIPTION,
+            variables: { postId: id },
+            updateQuery: (prev, {subscriptionData}) => {
+                if(!subscriptionData.data) return prev;
+                const newComment = subscriptionData.data.Post.data;
+
+                if (prev !== undefined) {
+                    return({comments: [...prev.comments, ...newComment]})
+                }
+            }
+        })
+    }, [subscribeToMore]);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -147,10 +164,10 @@ function Post({ clubname, title, author, content, comments, id }) {
                                 <div style={{ backgroundColor: "white", display: "flex", justifyContent: "center", flexDirection: "column", width: "24.4em", height: '15em', overflow: 'auto' }}>
                                     {
 
-                                        (commentsadded.length === 0) ?
+                                        (comments.length === 0) ?
                                             <></>
                                             :
-                                            commentsadded.map(function (comment) {
+                                            comments.map(function (comment) {
                                                 return (
                                                     <div style={{ backgroundColor: "white", width: "18em", marginTop: '0.2em' }}>
                                                         <div style={{ marginTop: '0.2em' }}>

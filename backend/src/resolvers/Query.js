@@ -36,6 +36,8 @@ const Query = {
 
     post = post.sort((a, b) => b.createTime - a.createTime);
 
+    if(!begin && !end)return post;
+
     if (begin > post.length) { return []; }
     else if (end >= post.length) { return post.slice(begin - 1, post.length); }
     else return post.slice(begin - 1, end);
@@ -51,7 +53,7 @@ const Query = {
       let find = await db.CommentModel.findById(post.comments[i]);
       let commenter = await db.UserModel.findById(find.commenter);
 
-      comment.push({ commenter: { name: commenter.name }, body: find.body, createTime: find.createtime })
+      comment.push({ commenter: commenter, body: find.body, createTime: find.createTime })
     }
 
     return comment;

@@ -11,7 +11,7 @@ import { JOINED_CLUB_MUTATION, UPDATE_USER_MUTATION } from "../graphql/Mutation"
 import { useMutation } from '@apollo/react-hooks';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-function ClubHeader({ clubname, createPost }) {
+function ClubHeader({ clubname, createPost, setClubSelected }) {
     const [modalVisible, setModalVisible] = useState(false);
     const { me } = useCommonProps();
     const addPost = () => { setModalVisible(true); };
@@ -36,7 +36,7 @@ function ClubHeader({ clubname, createPost }) {
             },
         });
         setHasJoinedClub(true);
-    }, [updateUser]
+    }, [updateUser, clubname]
     );
     joinedclub({ userName: me, clubName: clubname })
 
