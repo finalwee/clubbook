@@ -21,7 +21,8 @@ type Mutation {
 
 type Subscription {
   ChatBox(ChatBoxName: String): ChatBoxSubscriptionPayload!
-  Club(clubId: ID): ClubSubscriptionPayload!
+  Club(clubname: String): ClubSubscriptionPayload!
+  ClubInHomePage: ClubSubscriptionPayload!
   Post(postId: ID): PostSubscriptionPayload!
 }
 

@@ -36,6 +36,8 @@ const Query = {
 
     post = post.sort((a, b) => b.createTime - a.createTime);
 
+    if(!begin && !end)return post;
+
     if (begin > post.length) { return []; }
     else if (end >= post.length) { return post.slice(begin - 1, post.length); }
     else return post.slice(begin - 1, end);

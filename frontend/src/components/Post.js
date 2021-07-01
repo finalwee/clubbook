@@ -31,7 +31,6 @@ function Post({ clubname, title, author, content, comments, id }) {
     const { postOriginal } = useFlag();
     const { me, displayStatus } = useCommonProps();
     const [createPostComment] = useMutation(CREATE_COMMENT_MUTATION);
-    console.log(id);
     const createComment = useCallback(async ({ body, commenter, postId }) => {
         const success = await createPostComment({
             variables: {
@@ -40,7 +39,6 @@ function Post({ clubname, title, author, content, comments, id }) {
                 postId: postId
             },
         });
-        console.log(success);
     }, [createPostComment]
     )
 

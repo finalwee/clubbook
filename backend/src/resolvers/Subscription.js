@@ -11,12 +11,18 @@ const Subscription = {
     },
   },
   Club: {
-    subscribe(parent, { clubId }, { db, pubsub }, info) {
-      const club = db.ClubModel.findById(clubId);
+    subscribe(parent, { clubname }, { db, pubsub }, info) {
+      const club = db.ClubModel.findOne({name: clubname});
 
-      if(Object.keys(club).length === 0) throw new Error(`Club: ${clubId} does not exit`);
+      if(Object.keys(club).length === 0) throw new Error(`Club: ${clubname} does not exit`);
 
-      return pubsub.asyncIterator(`Club ${clubId}`);
+      return pubsub.asyncIterator(`Club ${clubname}`);
+    }
+  },
+  ClubInHomePage: {
+    subscribe(parent, args, { db, pubsub }, info) {
+      
+      return pubsub.asyncIterator(`ClubInHomePage`);
     }
   },
   Post: {

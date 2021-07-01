@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import {
-    Paper,
-    Grid,
     Avatar,
     Button,
-    ButtonGroup,
-    Card,
-    IconButton,
 } from '@material-ui/core';
 import { useCommonProps } from "../containers/ClubBook";
 import {QUERY_USERS} from "../graphql/Query";
@@ -25,10 +20,6 @@ function PersonalProfile() {
     favourite = favourite === undefined ? '' : favourite;
     clubs = clubs === undefined ? [] : clubs;
     friends = friends === undefined ? [] : friends;
-    // const [email, setEmail] = useState('b06901168@ntu.edu.tw');
-    // const [favourite, setFavourite] = useState('sleep');
-    // const [friends, setFriends] = useState(['Peter', 'Jeff', 'Kevin', 'Edan', 'Kane', 'Lisheng', 'David']);
-    // const [clubs, setClubs] = useState(['羽球社', '網球社', '鋼琴社', '口琴社', '國樂社', '美食社', '書法社']);
     const [aboutvisible, setAboutvisible] = useState('hidden');
     const [friendvisible, setFriendvisible] = useState('hidden');
     const [clubvisible, setClubvisible] = useState('hidden');

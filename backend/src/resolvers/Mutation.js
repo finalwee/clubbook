@@ -167,20 +167,27 @@ const Mutation = {
     club.posts.push(newPost._id);
     await club.save();
 
-    let subscripPost = [];
-
-    for (let i = 0; i < club.posts.length; i++) {
-      let find = await db.PostModel.findById(club.posts[i]);
+    let subscriptPost = [];
+    
+    {
+      let find = await db.PostModel.findById(club.posts[club.posts.length-1]);
       let author = await db.UserModel.findById(find.author);
 
-      subscripPost.push({ author: author, body: find.body, createTime: find.createTime });
+      subscriptPost.push({ author: author, _id: find._id, title: find.title, clubName: find.clubName, body: find.body});
     }
 
-    pubsub.publish(`Club ${club._id}`, {
+    pubsub.publish(`Club ${clubName}`, {
       Club: {
         mutation: 'UPDATED',
-        data: subscripPost,
+        data: subscriptPost,
       },
+    });
+
+    pubsub.publish(`ClubInHomePage`, {
+      ClubInHomePage: {
+        mutation: 'UPDATED',
+        data: subscriptPost,
+      }
     });
 
     return true;
