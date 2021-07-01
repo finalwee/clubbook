@@ -64,7 +64,7 @@ const Mutation = {
           data: args.subscribe[0],
         },
       });
-      console.log(args.subscribe[0]);
+
     }
 
     if (args.friends) {

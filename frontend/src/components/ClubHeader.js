@@ -35,7 +35,6 @@ function ClubHeader({ clubname, createPost, setClubSelected }) {
                 subscribe: clubname
             },
         });
-        console.log(clubname);
         setHasJoinedClub(true);
     }, [updateUser, clubname]
     );
