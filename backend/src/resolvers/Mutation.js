@@ -201,7 +201,6 @@ const Mutation = {
     }
 
     let post = await db.PostModel.findById(postId);
-    console.log(post);
 
     if (!post) {
       throw new Error("Post do not exist");
@@ -215,14 +214,13 @@ const Mutation = {
 
     let subscripComment = [];
 
-    for (let i = 0; i < post.comments.length; i++) {
-      let find = await db.CommentModel.findById(post.comments[i]);
+    {
+      let find = await db.CommentModel.findById(post.comments[post.comments.length-1]);
       let commenter = await db.UserModel.findById(find.commenter);
 
-      subscripComment.push({ commenter: commenter, body: find.body, createTime: find.createtime });
+      subscripComment.push({ commenter: commenter, body: find.body, createTime: find.createTime });
     }
-
-
+    console.log(subscripComment);
 
     pubsub.publish(`Post ${post._id}`, {
       Post: {

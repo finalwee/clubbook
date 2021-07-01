@@ -60,3 +60,21 @@ subscription
     }
   }
 `;
+
+export const COMMENTS_SUBSCRIPTION = gql`
+subscription Post(
+  $postId: ID
+){
+    Post(
+      postId: $postId
+    ){
+      data{
+        commenter{
+          name
+        }
+        createTime
+        body
+      }
+    }
+}
+`;
