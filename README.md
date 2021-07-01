@@ -32,20 +32,21 @@ B06901126 陳志偉: backend & deployment
 
 ## work for every teammate
 B06901168 黃其澤
-- frontend design :
+- frontend design :\
 	post, clubheader, personal profile, create post modal
-- graphql connect to backend :
+- graphql connect to backend :\
 	Mutation: create club, create post, create comment, join club
+
 B06901088 施淳仁
-- frontend design :
+- frontend design :\
 	clubbook, clubposts, header, homepage, homepageposts, register, sidebar, signin
 	chatroom, chatbox (the extension of hw8)
 - graphql connect to backend :
 	
 B06901126 陳志偉
--
-
-
+- backend: mongoose schema, most resolvers\
+- deployment: [deploy on gcp](http://34.132.234.173/) 
+	
 ## Reference
 https://reactjsexample.com/react-side-nav-component/ \
 https://material-ui.com/zh/
