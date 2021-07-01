@@ -44,8 +44,10 @@ B06901088 施淳仁
 - graphql connect to backend :
 	
 B06901126 陳志偉
-- backend: mongoose schema, most resolvers\
-- deployment: [deploy on gcp](http://34.132.234.173/) 
+- backend: \
+	mongoose schema, most resolvers
+- deployment: \
+	[deploy on gcp](http://34.132.234.173/) 
 	
 ## Reference
 https://reactjsexample.com/react-side-nav-component/ \
