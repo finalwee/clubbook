@@ -4,27 +4,25 @@ import {
     Button,
 } from '@material-ui/core';
 import { useCommonProps } from "../containers/ClubBook";
-import {QUERY_USERS} from "../graphql/Query";
-import {useQuery} from '@apollo/react-hooks';
+import { QUERY_USERS } from "../graphql/Query";
+import { useQuery } from '@apollo/react-hooks';
 
 
 function PersonalProfile() {
 
-    const {me} = useCommonProps();
-    const userInfo = useQuery(QUERY_USERS, {variables: {username: me}});
+    const { me } = useCommonProps();
+    const userInfo = useQuery(QUERY_USERS, { variables: { username: me } });
     let email = userInfo?.data?.user?.email;
-    let favourite = userInfo?.data?.user?.favourite;
-    let clubs = userInfo?.data?.user?.subscribe?.map(club => {return club.name});
-    let friends = userInfo?.data?.user?.friends?.map(friend => {return friend.name});
+    let favorite = userInfo?.data?.user?.favourite;
+    let clubs = userInfo?.data?.user?.subscribe?.map(club => { return club.name });
     email = email === undefined ? '' : email;
-    favourite = favourite === undefined ? '' : favourite;
+    favorite = favorite === undefined ? '' : favorite;
     clubs = clubs === undefined ? [] : clubs;
-    friends = friends === undefined ? [] : friends;
-    const [aboutvisible, setAboutvisible] = useState('hidden');
-    const [friendvisible, setFriendvisible] = useState('hidden');
+    const [emailvisible, setEmailvisible] = useState('hidden');
+    const [favoritevisible, setFavoritevisible] = useState('hidden');
     const [clubvisible, setClubvisible] = useState('hidden');
-    const [aboutbuttonvisible, setAboutbuttonvisible] = useState('visible');
-    const [friendbuttonvisible, setFriendbuttonvisible] = useState('visible');
+    const [emailbuttonvisible, setEmailbuttonvisible] = useState('visible');
+    const [favoritebuttonvisible, setFavoritebuttonvisible] = useState('visible');
     const [clubbuttonvisible, setClubbuttonvisible] = useState('visible');
     const calname = (name) => {
         let length = 0;
@@ -38,53 +36,53 @@ function PersonalProfile() {
         return length;
     }
 
-    const handleaboutvisible = () => {
-        setFriendvisible('hidden');
+    const handleemailvisible = () => {
+        setFavoritevisible('hidden');
         setClubvisible('hidden');
-        if (aboutvisible == 'hidden') {
-            setAboutvisible('visible');
-            setAboutbuttonvisible('visible');
-            setFriendbuttonvisible('hidden');
+        if (emailvisible == 'hidden') {
+            setEmailvisible('visible');
+            setEmailbuttonvisible('visible');
+            setFavoritebuttonvisible('hidden');
             setClubbuttonvisible('hidden');
         }
         else {
-            setAboutvisible('hidden');
-            setAboutbuttonvisible('visible');
-            setFriendbuttonvisible('visible');
+            setEmailvisible('hidden');
+            setEmailbuttonvisible('visible');
+            setFavoritebuttonvisible('visible');
             setClubbuttonvisible('visible');
         }
     }
 
-    const handlefriendvisible = () => {
-        setAboutvisible('hidden');
+    const handlefavoritevisible = () => {
+        setEmailvisible('hidden');
         setClubvisible('hidden');
-        if (friendvisible == 'hidden') {
-            setFriendvisible('visible');
-            setAboutbuttonvisible('hidden');
-            setFriendbuttonvisible('visible');
+        if (favoritevisible == 'hidden') {
+            setFavoritevisible('visible');
+            setEmailbuttonvisible('hidden');
+            setFavoritebuttonvisible('visible');
             setClubbuttonvisible('hidden');
         }
         else {
-            setFriendvisible('hidden');
-            setAboutbuttonvisible('visible');
-            setFriendbuttonvisible('visible');
+            setFavoritevisible('hidden');
+            setEmailbuttonvisible('visible');
+            setFavoritebuttonvisible('visible');
             setClubbuttonvisible('visible');
         }
     }
 
     const handleclubvisible = () => {
-        setAboutvisible('hidden');
-        setFriendvisible('hidden');
+        setEmailvisible('hidden');
+        setFavoritevisible('hidden');
         if (clubvisible == 'hidden') {
             setClubvisible('visible');
-            setAboutbuttonvisible('hidden');
-            setFriendbuttonvisible('hidden');
+            setEmailbuttonvisible('hidden');
+            setFavoritebuttonvisible('hidden');
             setClubbuttonvisible('visible');
         }
         else {
             setClubvisible('hidden');
-            setAboutbuttonvisible('visible');
-            setFriendbuttonvisible('visible');
+            setEmailbuttonvisible('visible');
+            setFavoritebuttonvisible('visible');
             setClubbuttonvisible('visible');
         }
     }
@@ -95,19 +93,19 @@ function PersonalProfile() {
                 <Avatar alt={me} style={{ height: '7em', width: '7em' }} />
                 <p style={{ fontSize: '4em', paddingTop: '0.6em', paddingLeft: '0.5em' }}>{me}</p>
             </div>
-            <div style={{ visibility: aboutbuttonvisible, position: 'absolute', left: (aboutvisible == 'hidden') ? 470 : 670, bottom: -350 }}>
+            <div style={{ visibility: emailbuttonvisible, position: 'absolute', left: (emailvisible == 'hidden') ? 470 : 670, bottom: -350 }}>
                 <Button
                     color='primary'
                     variant='contained'
-                    onClick={handleaboutvisible}
-                    style={{ height: '2em', width: '6em', fontSize: '2em', borderRadius: '10em' }}>About</Button>
+                    onClick={handleemailvisible}
+                    style={{ height: '2em', width: '6em', fontSize: '2em', borderRadius: '10em' }}>Email</Button>
             </div>
-            <div style={{ visibility: friendbuttonvisible, position: 'absolute', left: 670, bottom: -350 }}>
+            <div style={{ visibility: favoritebuttonvisible, position: 'absolute', left: 670, bottom: -350 }}>
                 <Button
                     color='primary'
                     variant='contained'
-                    onClick={handlefriendvisible}
-                    style={{ height: '2em', width: '6em', fontSize: '2em', borderRadius: '10em' }}>Friend</Button>
+                    onClick={handlefavoritevisible}
+                    style={{ height: '2em', width: '6em', fontSize: '2em', borderRadius: '10em' }}>Favorite</Button>
             </div>
             <div style={{ visibility: clubbuttonvisible, position: 'absolute', left: (clubvisible == 'hidden') ? 870 : 670, bottom: -350 }}>
                 <Button
@@ -116,24 +114,15 @@ function PersonalProfile() {
                     onClick={handleclubvisible}
                     style={{ height: '2em', width: '6em', fontSize: '2em', borderRadius: '10em' }}>Club</Button>
             </div>
-            <div style={{ position: 'absolute', left: 600, bottom: -600, overflow: 'auto', visibility: aboutvisible }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <p style={{ fontSize: '2em', marginLeft: '1em' }}>email:</p>
-                    <p style={{ fontSize: '2em', marginLeft: '1em', color: 'gray' }}>{email}</p>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <p style={{ fontSize: '2em', marginLeft: '1em' }}>Favourite:</p>
-                    <p style={{ fontSize: '2em', marginLeft: '1em', color: 'gray' }}>{favourite}</p>
+            <div style={{ visibility: emailvisible }}>
+                <div style={{ textAlign: 'center', position: 'absolute', left: 690, bottom: -430, fontSize: '30px' }}>
+                    {email}
                 </div>
             </div>
-            <div style={{ visibility: friendvisible }}>
-                {friends.map(function (friend, index) {
-                    const row = Math.floor(index / 3);
-                    const column = index % 3;
-                    return (<div style={{ textAlign: 'center', position: 'absolute', left: 500 + 220 * column, bottom: -430 - 100 * row, fontSize: '30px' }}>
-                        {friend}
-                    </div>)
-                })}
+            <div style={{ visibility: favoritevisible }}>
+                <div style={{ textAlign: 'center', position: 'absolute', left: 690, bottom: -430, fontSize: '30px' }}>
+                    {favorite}
+                </div>
             </div>
             <div style={{ visibility: clubvisible }}>
                 {clubs.map(function (club, index) {

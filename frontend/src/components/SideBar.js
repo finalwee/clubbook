@@ -4,8 +4,8 @@ import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import styled from 'styled-components';
 import { useFlag } from '../hooks/useFlag';
 import { useCommonProps } from "../containers/ClubBook";
-import {QUERY_USERS} from "../graphql/Query";
-import {useQuery} from '@apollo/react-hooks';
+import { QUERY_USERS } from "../graphql/Query";
+import { useQuery } from '@apollo/react-hooks';
 
 // SideNav
 const StyledSideNav = styled(SideNav)`
@@ -102,29 +102,29 @@ const StyledNavItem = styled(NavItem)`
 `;
 StyledNavItem.defaultProps = NavItem.defaultProps;
 
-function SideBar({setClubSelected}){
+function SideBar({ setClubSelected }) {
 
     const [selected, setSelected] = useState("home");
-    const {setPostOriginal, setShowWhich} = useFlag();
-    const {me} = useCommonProps();
-    const userInfo = useQuery(QUERY_USERS, {variables: {username: me}});
-    let clubs = userInfo?.data?.user?.subscribe?.map(club => {return club.name});
-    clubs = clubs===undefined ? [] : clubs;
-    
-    return(
+    const { setPostOriginal, setShowWhich } = useFlag();
+    const { me } = useCommonProps();
+    const userInfo = useQuery(QUERY_USERS, { variables: { username: me } });
+    let clubs = userInfo?.data?.user?.subscribe?.map(club => { return club.name });
+    clubs = clubs === undefined ? [] : clubs;
+
+    return (
         <StyledSideNav
-            onSelect={(eventKey)=>{
-                if (eventKey.slice(0, 5) === 'club/'){
+            onSelect={(eventKey) => {
+                if (eventKey.slice(0, 5) === 'club/') {
                     setClubSelected(eventKey.slice(5, eventKey.length))
                     setPostOriginal(false);
                     setShowWhich('club');
                 }
-                else if (eventKey === 'home'){
+                else if (eventKey === 'home') {
                     setClubSelected('');
                     setPostOriginal(false);
                     setShowWhich('club');
                 }
-                else if (eventKey === 'personal profile'){
+                else if (eventKey === 'personal profile') {
                     setShowWhich('personal profile');
                 }
             }}
@@ -155,30 +155,15 @@ function SideBar({setClubSelected}){
                         CLUB
                     </NavText>
                     {clubs.map(clubname => {
-                        return(
-                            <StyledNavItem eventKey={"club/"+clubname}> 
+                        return (
+                            <StyledNavItem eventKey={"club/" + clubname}>
                                 <NavText title={clubname}>
                                     {clubname}
                                 </NavText>
                             </StyledNavItem>
-                    )})}
+                        )
+                    })}
                 </StyledNavItem>
-                <StyledNavItem eventKey="activity">
-                    <NavIcon>
-                        <div>&#x2714;</div>
-                    </NavIcon>
-                    <NavText style={{ paddingRight: 32 }} title="ACTIVITY">
-                        ACTIVITY
-                    </NavText>
-                </StyledNavItem>
-                <NavItem eventKey="logout">
-                    <NavIcon>
-                        <div></div>
-                    </NavIcon>
-                    <NavText style={{ paddingRight: 32 }} title="LOG OUT">
-                        LOG OUT
-                    </NavText>
-                </NavItem>
             </StyledNav>
         </StyledSideNav>
     );

@@ -208,7 +208,7 @@ function Header({ createChatBox, setClubSelected }) {
                                 <SearchIcon />
                             </div>
                             <InputBase
-                                placeholder="Search Friend"
+                                placeholder="Search User"
                                 value={friendsearch}
                                 onChange={async evt => {
                                     setFriendSearch(evt.target.value);
